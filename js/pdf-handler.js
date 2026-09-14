@@ -1,0 +1,171 @@
+// PDF Ingestion (PDF.js) and Professional Report Export (html2pdf.js)
+
+class PDFHandler {
+  constructor() {
+    // Configure PDF.js worker
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  }
+
+  /**
+   * Reads a File (PDF, DOCX, TXT) and returns extracted plain text.
+   */
+  async extractTextFromFile(file, onProgress = null) {
+    if (!file) throw new Error('No file provided');
+
+    const fileName = file.name.toLowerCase();
+
+    if (fileName.endsWith('.pdf')) {
+      return await this.extractTextFromPDF(file, onProgress);
+    } else if (fileName.endsWith('.txt') || fileName.endsWith('.md')) {
+      return await this.extractTextFromPlainText(file);
+    } else if (fileName.endsWith('.docx')) {
+      return await this.extractTextFromDocx(file);
+    } else {
+      throw new Error('Unsupported file format. Please upload a PDF, DOCX, TXT, or Markdown file.');
+    }
+  }
+
+  async extractTextFromPlainText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Failed to read text file'));
+      reader.readAsText(file);
+    });
+  }
+
+  async extractTextFromPDF(file, onProgress) {
+    if (!window.pdfjsLib) {
+      throw new Error('PDF.js library is not loaded. Please check your internet connection.');
+    }
+
+    const arrayBuffer = await file.arrayBuffer();
+    const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+    const pdf = await loadingTask.promise;
+    const numPages = pdf.numPages;
+    let fullText = '';
+
+    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+      if (onProgress) {
+        onProgress(pageNum, numPages);
+      }
+      const page = await pdf.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items
+        .map(item => item.str)
+        .join(' ');
+
+      fullText += `--- PAGE ${pageNum} ---\n` + pageText + '\n\n';
+    }
+
+    return fullText.trim();
+  }
+
+  async extractTextFromDocx(file) {
+    if (window.mammoth) {
+      const arrayBuffer = await file.arrayBuffer();
+      const result = await window.mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+      return result.value.trim();
+    }
+    // Fallback if mammoth not loaded
+    return await this.extractTextFromPlainText(file);
+  }
+
+  /**
+   * Generates and downloads a beautifully formatted Legal Report PDF
+   */
+  exportToPDF({ title, subtitle, contentElementId, rawHtml, metadata = {} }) {
+    if (!window.html2pdf) {
+      alert('PDF generation library is loading, please try again in a moment.');
+      return;
+    }
+
+    // Build print-ready container
+    const printContainer = document.createElement('div');
+    printContainer.id = 'pdf-export-canvas';
+    printContainer.style.cssText = `
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      padding: 32px;
+      line-height: 1.6;
+    `;
+
+    const now = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    const reportHeader = `
+      <div style="border-bottom: 2px solid #2563eb; padding-bottom: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span style="font-size: 24px;">⚖️</span>
+            <span style="font-size: 20px; font-weight: 800; color: #1e3a8a; letter-spacing: -0.025em;">LEGAL ASSISTANT PRO</span>
+          </div>
+          <h1 style="font-size: 22px; font-weight: 700; color: #0f172a; margin: 4px 0;">${title}</h1>
+          <p style="font-size: 13px; color: #64748b; margin: 0;">${subtitle || 'AI-Powered Legal Intelligence Report'}</p>
+        </div>
+        <div style="text-align: right; font-size: 11px; color: #64748b;">
+          <div><strong>Generated:</strong> ${now}</div>
+          <div><strong>Engine:</strong> Google Gemini 2.0 Flash</div>
+          <div><strong>Status:</strong> Completed Audit</div>
+        </div>
+      </div>
+    `;
+
+    let reportBody = '';
+    if (contentElementId) {
+      const srcEl = document.getElementById(contentElementId);
+      if (srcEl) {
+        reportBody = srcEl.innerHTML;
+      }
+    } else if (rawHtml) {
+      reportBody = rawHtml;
+    }
+
+    const reportFooter = `
+      <div style="margin-top: 36px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 10px; color: #94a3b8; text-align: center;">
+        <p style="margin: 0 0 4px 0;"><strong>⚖️ LEGAL DISCLAIMER:</strong> This report is generated by AI for informational and navigational assistance only. It does not constitute formal legal counsel or create an attorney-client relationship. Please consult a licensed attorney for binding legal matters.</p>
+        <p style="margin: 0;">Generated with Legal Assistant Pro &bull; PromptWars AI for Legal Assistance & Access</p>
+      </div>
+    `;
+
+    printContainer.innerHTML = reportHeader + `<div class="pdf-content-wrapper">${reportBody}</div>` + reportFooter;
+    document.body.appendChild(printContainer);
+
+    const filename = `${title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_audit_${Date.now()}.pdf`;
+
+    const opt = {
+      margin: [10, 12, 10, 12],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    window.html2pdf()
+      .set(opt)
+      .from(printContainer)
+      .save()
+      .then(() => {
+        document.body.removeChild(printContainer);
+      })
+      .catch(err => {
+        console.error('PDF export failed:', err);
+        if (document.getElementById('pdf-export-canvas')) {
+          document.body.removeChild(printContainer);
+        }
+        alert('Failed to generate PDF: ' + err.message);
+      });
+  }
+}
+
+window.pdfHandler = new PDFHandler();

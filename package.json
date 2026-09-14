@@ -1,0 +1,20 @@
+{
+  "name": "legal-assistant-pro",
+  "version": "1.0.0",
+  "description": "Legal Assistant Pro — AI-Powered Legal Document Simplification, Risk Analysis, Clause Highlighting, and Contract Comparison.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "legal-ai",
+    "gemini",
+    "promptwars",
+    "contract-analysis",
+    "pdf-export",
+    "clause-highlighter"
+  ],
+  "author": "arjunpv1312",
+  "license": "MIT"
+}

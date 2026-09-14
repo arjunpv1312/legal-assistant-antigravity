@@ -1,0 +1,240 @@
+/* Legal Assistant Pro — Custom CSS & Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #eff6ff;
+  --risk-high-bg: #fef2f2;
+  --risk-high-border: #ef4444;
+  --risk-high-text: #991b1b;
+  --risk-med-bg: #fffbeb;
+  --risk-med-border: #f59e0b;
+  --risk-med-text: #92400e;
+  --risk-low-bg: #ecfdf5;
+  --risk-low-border: #10b981;
+  --risk-low-text: #065f46;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Glassmorphism & UI Accents */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.legal-card {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.legal-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Tab Navigation */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tab-btn {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+  color: #2563eb;
+  background-color: #ffffff;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #2563eb;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+/* Inputs & Form Elements */
+.legal-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 0.75rem;
+  font-size: 0.925rem;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.legal-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+/* Inline Clause Highlighter Marks */
+.inline-clause-mark {
+  padding: 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-weight: 500;
+  display: inline;
+  line-height: 1.8;
+}
+
+.inline-clause-mark:hover {
+  filter: brightness(0.92);
+  outline: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.clause-high {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-bottom: 2px solid #ef4444;
+}
+
+.clause-medium {
+  background-color: #fef3c7;
+  color: #92400e;
+  border-bottom: 2px solid #f59e0b;
+}
+
+.clause-low {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-bottom: 2px solid #10b981;
+}
+
+.inline-clause-mark.active-mark {
+  outline: 2px solid #2563eb !important;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+}
+
+/* Filter Pills */
+.filter-pill {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filter-pill:hover {
+  background-color: #f1f5f9;
+}
+
+.filter-pill.active {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.filter-pill-high.active {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+.filter-pill-medium.active {
+  background-color: #d97706;
+  border-color: #d97706;
+  color: #ffffff;
+}
+
+.filter-pill-low.active {
+  background-color: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+/* Markdown typography enhancements */
+.prose-legal h1 { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+.prose-legal h2 { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+.prose-legal h3 { font-size: 1.1rem; font-weight: 600; color: #334155; margin-top: 1rem; margin-bottom: 0.5rem; }
+.prose-legal p { margin-bottom: 0.75rem; color: #334155; line-height: 1.6; }
+.prose-legal ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.prose-legal ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.prose-legal li { margin-bottom: 0.25rem; color: #334155; }
+.prose-legal strong { color: #0f172a; font-weight: 700; }
+.prose-legal blockquote { border-left: 4px solid #3b82f6; padding-left: 1rem; color: #475569; font-style: italic; margin: 1rem 0; background: #f8fafc; padding: 0.5rem 1rem; border-radius: 0 0.5rem 0.5rem 0; }
+.prose-legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.prose-legal th, .prose-legal td { border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; }
+.prose-legal th { background-color: #f8fafc; font-weight: 600; color: #1e293b; }
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Toast Notifications */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+/* Print Rules */
+@media print {
+  body { background: #ffffff !important; }
+  .no-print { display: none !important; }
+}
