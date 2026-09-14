@@ -1,105 +1,75 @@
-# ⚖️ Legal Assistant Pro
+# Legal Assistant Pro — PromptWars Challenge 5
 
-> **AI for Legal Assistance & Access &bull; PromptWars Challenge 5**  
-> *Understand. Compare. Navigate.*
+An AI-powered legal assistance platform that simplifies complex legal documents, compares contracts, highlights risks, answers document-specific questions, and generates actionable checklists.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Powered by Gemini 2.0 Flash](https://img.shields.io/badge/AI-Gemini%202.0%20Flash-4285F4.svg)](https://deepmind.google/technologies/gemini/)
-[![Deployment: Vercel](https://img.shields.io/badge/Deploy-Vercel-black.svg)](https://vercel.com)
+## 🎯 Problem
+Legal documents are designed for lawyers, not people. Most can't parse contracts or spot risks without expensive professional help.
 
----
+## ✨ Solution
+Legal Assistant Pro is a 5-tool GenAI platform that makes legal information accessible to everyone.
 
-## 📌 Problem Statement
+### Features
+- 📄 **Document Simplifier** — Convert legal jargon to plain English
+- 🔄 **Contract Comparison** — Side-by-side analysis of multiple agreements
+- ⚠️ **Risk Analyzer** — Identify HIGH/MEDIUM/LOW risk clauses automatically
+- ❓ **Document Q&A** — Ask specific questions about any legal document
+- ✅ **Action Checklist** — Generate preparation steps for lawyer meetings or negotiations
+- 📤 **PDF Upload** — Drag-and-drop PDF documents for instant analysis
+- 💾 **Export to PDF** — Download risk analysis and checklists as PDFs
+- 🔍 **Inline Clause Highlighting** — Compare contracts with highlighted differences
+- 📚 **Analysis History** — localStorage saves last 5 document analyses
+- 🔑 **Custom API Key** — Use your own Gemini API key if demo key fails
 
-Complex legal documents are intentionally filled with dense legalese, hidden liability traps, and asymmetric terms that ordinary people and small business owners cannot easily understand. Hiring attorneys for routine contract reviews is prohibitively slow and expensive, creating a severe justice and accessibility gap.
+## 🚀 Quick Start
 
----
+1. Open `legal-assistant.html` in any modern browser
+2. Paste your legal document into a tab
+3. Choose your analysis type
+4. Get instant AI-powered insights
 
-## 💡 Solution Overview
+## 💻 Tech Stack
+- **Frontend:** HTML5, Tailwind CSS, Vanilla JavaScript
+- **AI Engine:** Google Gemini 2.0 Flash API
+- **Resilience:** Exponential backoff retry logic (handles 429 rate limits)
+- **Hosting:** Vercel
 
-**Legal Assistant Pro** is an all-in-one AI legal copilot powered by **Google Gemini 2.0 Flash** that democratizes legal understanding. It provides 5 specialized tools in a single, zero-build web application:
+## 🧪 Local Testing
 
-1. **📄 Document Simplifier:** Translates dense contracts into crystal-clear plain English, highlighting rights, obligations, and penalties.
-2. **⚠️ Risk & Clause Audit:** Scores contracts (0-100), detects liability hazards, and features an interactive **Inline Clause Heatmap** with counter-proposal suggestions.
-3. **🔄 Contract Comparator:** Performs side-by-side contract variance analysis with a clause-by-clause discrepancy matrix.
-4. **❓ Legal Q&A Assistant:** Answers specific questions with direct citations and practical impact explanations.
-5. **✅ Action Checklist Generator:** Formulates role-based pre-signing checklists, deal-breaker alerts, and attorney talking points.
+**Prerequisites:**
+- Modern browser (Chrome, Firefox, Safari, Edge)
+- Google Gemini API key (free from aistudio.google.com/app/apikey)
 
----
+**Test Checklist:**
+- [ ] Simplify Tab: Paste contract clause, verify plain English output
+- [ ] Compare Tab: Paste two documents, verify differences highlighted
+- [ ] Risk Tab: Paste contract, verify HIGH/MEDIUM/LOW risk identification
+- [ ] Q&A Tab: Ask document-specific question, verify accurate answer
+- [ ] Checklist Tab: Select document type, verify action items generated
+- [ ] PDF Upload: Drag-drop PDF, verify text extraction works
+- [ ] Export to PDF: Download checklist/analysis, verify PDF quality
+- [ ] API Key: Use custom API key in settings, verify API calls work
 
-## ✨ Features
+## 📊 Submission Details
 
-- 📎 **Drag-and-Drop PDF Ingestion:** Upload multi-page PDFs or text documents with client-side text extraction via PDF.js.
-- 📥 **Export to PDF:** Download branded, high-resolution legal audit reports with timestamps and risk counters using html2pdf.js.
-- 🔎 **Interactive Inline Clause Highlighter:** Visual color-coded tags (🔴 High Risk, 🟡 Ambiguity, 🟢 Standard) with a click-to-inspect drawer and 1-click copyable counter-terms.
-- 📂 **Sample Contracts Loader:** Instant 1-click presets (Mutual NDA, SaaS Terms, Contractor Agreement, Commercial Triple-Net Lease) for rapid evaluation.
-- 🕒 **LocalStorage History:** Automatically saves the last 5 document analyses for instant 1-click restore.
-- ⚙️ **Judge / Custom API Key Modal:** Easily paste a personal Gemini API key or use demo fallback with automatic exponential backoff retry.
-- 🛡️ **Zero-Build & XSS Safe:** Pure HTML5, Tailwind CSS, DOMPurify sanitization, and responsive glassmorphism UI.
-
----
-
-## 🚀 How to Use
-
-1. **Upload or Paste:** Drag and drop a PDF/document or paste contract text into any tool (or click **📂 Sample Contracts** for demo agreements).
-2. **Click Action:** Click the tool button (e.g., *🚀 Simplify Document*, *⚠️ Audit Risks*, *🔍 Compare Contracts*).
-3. **Inspect & Export:** Review the plain-English breakdown, click highlighted clauses for counter-terms, or click **📥 Export PDF** to download the audit report.
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend:** Single-file HTML5, Vanilla JavaScript (ES6+), Plus Jakarta Sans & JetBrains Mono typography
-- **Styling:** Tailwind CSS (via CDN) with custom glassmorphism and animation system
-- **AI Model:** Google Gemini 2.0 Flash (`gemini-2.0-flash`) with exponential backoff retry handling
-- **Document Processing:** PDF.js (`pdfjs-dist`) for extraction, Mammoth.js for Word parsing, Marked.js & DOMPurify for secure markdown rendering
-- **PDF Generation:** html2pdf.js & jsPDF for formatted legal report exports
-- **Hosting:** Vercel (zero-config static deployment)
-
----
-
-## 💻 Local Testing Instructions
-
-Run Legal Assistant Pro locally with no build step required:
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/arjunpv1312/legal-assistant-antigravity.git
-cd legal-assistant-antigravity
-
-# 2. Launch using any local static server
-npx serve .
-# or simply double-click legal-assistant.html in your file explorer!
-```
-
-Open `http://localhost:3000` (or `legal-assistant.html`) in any modern web browser. Click the **⚙️ API Key** button in the header to enter your Google Gemini API key if needed.
-
----
-
-## 📸 Screenshots & Demo Media
-
-Place your screenshots or walkthrough demo GIF in the `assets/` folder:
-
-```
-assets/
-├── demo-walkthrough.gif     # 3-minute overview walkthrough
-├── risk-highlighter.png     # Screenshot of the interactive clause heatmap
-└── comparison-matrix.png    # Screenshot of the side-by-side comparator
-```
-
-Embed syntax:
-```markdown
-![Legal Assistant Pro Walkthrough](assets/demo-walkthrough.gif)
-```
-
----
+**Challenge:** AI for Legal Assistance & Access (PromptWars Challenge 5)
+**Built with:** Google Antigravity (agentic IDE)
+**Submission Status:** Ready for deployment
 
 ## ⚖️ Legal Disclaimer
 
-*Legal Assistant Pro provides assistive artificial intelligence analysis for informational and educational purposes only and does not constitute formal legal advice, representation, or an attorney-client relationship.*
+This tool provides information and assistance, **not professional legal advice**. Always consult a licensed attorney for binding legal decisions.
 
----
+## 📝 License
 
-## 📄 License
+MIT License — See LICENSE file for details
 
-Distributed under the [MIT License](LICENSE). Copyright (c) 2026 Arjun PV ([@arjunpv1312](https://github.com/arjunpv1312)).
+## 🎓 Built by
+
+Arjun (Google Gemini Student Ambassador 2026)
+- GitHub: [@arjunpv1312](https://github.com/arjunpv1312)
+- Email: pvarjun527@gmail.com
+
+## 🔗 Links
+
+- **Live Demo:** (Add Vercel URL here after deployment)
+- **GitHub:** https://github.com/arjunpv1312/legal-assistant-antigravity

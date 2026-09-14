@@ -1,40 +1,48 @@
-# GitHub Setup & Deployment Workflow
+# GitHub Setup Workflow
 
-This workflow automates repository initialization, staging, licensing, and pushing **Legal Assistant Pro** to GitHub for PromptWars Challenge 5.
-
----
-
-## Prerequisites
-- Git installed on your system.
-- GitHub account connected with write access to `arjunpv1312/legal-assistant-antigravity`.
+This workflow automates repository setup, git configuration, licensing, documentation, and committing the enhanced Legal Assistant Pro project.
 
 ---
 
-## Automated Git Setup Steps
+## Repository Details
+- **Remote URL:** `https://github.com/arjunpv1312/legal-assistant-antigravity.git`
+- **Remote Name:** `origin`
+- **Branch:** `main`
+- **Target Directory:** `legal-assistant-antigravity`
 
+---
+
+## Workflow Steps
+
+### Step 1: Initialize Git & Configure User Identity
 ```bash
-// 1. Initialize local repository
 git init
-
-// 2. Add remote repository origin
-git remote remove origin 2>/dev/null || true
-git remote add origin https://github.com/arjunpv1312/legal-assistant-antigravity.git
-
-// 3. Stage all enhanced files (legal-assistant.html, index.html, README.md, LICENSE, vercel.json)
-git add legal-assistant.html index.html README.md LICENSE vercel.json package.json .env.example css/ js/ api/ .agent/
-
-// 4. Create primary commit
-git commit -m "feat: Complete Legal Assistant Pro (PromptWars Challenge 5 - 5 Legal AI Tools, PDF Ingestion, Export & Clause Highlighter)"
-
-// 5. Set main branch and push to GitHub
+git config user.email "pvarjun527@gmail.com"
+git config user.name "Arjun"
 git branch -M main
-git push -u origin main
 ```
 
----
+### Step 2: Configure Remote Origin
+```bash
+# Add origin if not present, otherwise update URL
+git remote remove origin 2>/dev/null || true
+git remote add origin https://github.com/arjunpv1312/legal-assistant-antigravity.git
+```
 
-## Verification Checklist
-- [x] `legal-assistant.html` contains the enhanced single-file application with all 5 tools.
-- [x] `README.md` contains problem statement, solution overview, feature list, local testing instructions, disclaimer, and media placement guides.
-- [x] `LICENSE` contains the MIT License for Arjun PV (`arjunpv1312`).
-- [x] `index.html` and `vercel.json` are prepared for instant Vercel zero-config deployment.
+### Step 3: Add .gitignore
+Create `.gitignore` containing environment variables, local artifacts, and node_modules.
+
+### Step 4: Write Documentation & License
+- Update `README.md` with full project overview, 5 tool breakdowns, local testing checklist, and submission details.
+- Write `LICENSE` (MIT License under Arjun).
+
+### Step 5: Stage and Commit Enhanced Files
+```bash
+git add legal-assistant.html index.html README.md LICENSE .gitignore vercel.json package.json .agent/ scripts/
+git commit -m "Initial commit: Legal Assistant Pro - Enhanced with PDF upload, export, clause highlighting, localStorage history, and API key settings"
+```
+
+### Step 6: Push to Remote Repository
+```bash
+git push -u origin main
+```

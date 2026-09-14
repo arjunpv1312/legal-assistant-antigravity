@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Environment variables & keys
+.env
+.env.local
+.env.*.local
+
+# Deployment & Logs
+.deployment-url.txt
+.test-results.log
+*.log
+.vercel/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
