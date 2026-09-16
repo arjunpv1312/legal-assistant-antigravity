@@ -796,7 +796,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- MODAL 1: FIRST-LOAD API KEY GATE MODAL -->
+    <!-- MODAL 1: FIRST-LOAD / API KEY SETUP MODAL -->
     <!-- ========================================== -->
     <div id="api-key-gate-modal" role="dialog" aria-modal="true" aria-labelledby="gate-modal-title" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
         <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-6 sm:p-8 space-y-6">
@@ -804,21 +804,32 @@
                 <div class="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center text-3xl mx-auto mb-3" aria-hidden="true">
                     🔑
                 </div>
-                <h2 id="gate-modal-title" class="text-xl font-extrabold text-slate-900 dark:text-white">Enter Google Gemini API Key</h2>
+                <h2 id="gate-modal-title" class="text-xl font-extrabold text-slate-900 dark:text-white">API Mode & Configuration</h2>
                 <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">PromptWars Legal Assistant Pro is powered by Google Gemini 3.6 Flash.</p>
             </div>
 
-            <div class="bg-blue-50 dark:bg-blue-950/40 p-4 rounded-xl border border-blue-200 dark:border-blue-900 text-xs text-blue-900 dark:text-blue-200 flex items-start gap-2">
-                <span class="text-base" aria-hidden="true">💡</span>
-                <div>
-                    <strong>Need a free API key?</strong> Get one instantly at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="underline font-bold hover:text-blue-700 dark:hover:text-blue-300">Google AI Studio</a>.
+            <!-- Instant Access Demo Key Option -->
+            <div class="p-4 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 space-y-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">⚡</span>
+                    <strong class="text-xs text-emerald-900 dark:text-emerald-300">Instant Demo Mode (Zero Setup)</strong>
                 </div>
+                <p class="text-[11px] text-emerald-800 dark:text-emerald-300">Test all 5 legal AI tools immediately using the pre-configured default connection.</p>
+                <button type="button" id="gate-demo-mode-btn" class="touch-target w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs">
+                    <span>🚀 Launch Default / Demo Mode</span>
+                </button>
+            </div>
+
+            <div class="relative flex py-1 items-center">
+                <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+                <span class="flex-shrink mx-3 text-slate-400 text-[11px] font-bold uppercase">OR USE CUSTOM KEY</span>
+                <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
             </div>
 
             <div class="space-y-2">
-                <label for="gate-api-key-input" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Google Gemini API Key</label>
+                <label for="gate-api-key-input" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Custom Google Gemini API Key</label>
                 <div class="relative">
-                    <input type="password" id="gate-api-key-input" class="legal-input pr-10 font-mono text-xs" placeholder="AIzaSy..." autocomplete="off">
+                    <input type="password" id="gate-api-key-input" class="legal-input pr-10 font-mono text-xs" placeholder="Paste custom AIzaSy... key" autocomplete="off">
                     <button type="button" id="toggle-gate-key-visibility" aria-label="Toggle API Key Visibility" class="touch-target absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 text-xs">
                         👁️
                     </button>
@@ -828,16 +839,12 @@
             <div id="gate-error-message" role="alert" aria-live="assertive" class="hidden p-3 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-xl text-xs border border-red-200 dark:border-red-900"></div>
 
             <div class="space-y-2">
-                <button id="gate-validate-btn" aria-label="Validate and Continue" class="touch-target w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2 text-sm">
-                    <span aria-hidden="true">🚀</span> Validate & Continue
+                <button id="gate-validate-btn" aria-label="Validate and Save Custom Key" class="touch-target w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2 text-xs">
+                    <span>🔑 Validate & Save Custom Key</span>
                 </button>
-                <button type="button" id="gate-learn-more-btn" aria-expanded="false" class="w-full text-center text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 py-2">
-                    Why do I need an API key?
+                <button type="button" id="gate-cancel-btn" class="w-full text-center text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 py-1.5">
+                    Cancel & Close
                 </button>
-            </div>
-
-            <div id="gate-learn-more-drawer" class="hidden text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
-                <p><strong>100% Client-Side Privacy:</strong> Your API key is stored only in your browser's <code>localStorage</code>. It communicates directly with Google's API and is never sent to any intermediary server.</p>
             </div>
         </div>
     </div>
@@ -1069,14 +1076,14 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
     }
 
     // ==========================================
-    // 4. API KEY STORAGE & VALIDATION
+    // 4. API KEY STORAGE & DUAL-MODE RESOLVER
     // ==========================================
     function getStoredApiKey() {
       return localStorage.getItem(STORAGE_KEY) || null;
     }
 
     function setStoredApiKey(key) {
-      if (key && typeof key === 'string') {
+      if (key && typeof key === 'string' && key.trim().length > 0) {
         localStorage.setItem(STORAGE_KEY, key.trim());
       } else {
         localStorage.removeItem(STORAGE_KEY);
@@ -1085,7 +1092,7 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
     }
 
     function maskApiKey(key) {
-      if (!key) return 'No API Key Configured';
+      if (!key) return '⚡ Default / Demo Connection Active';
       if (key.length <= 8) return '••••••••';
       return '••••••••••••••••••••••••' + key.slice(-4);
     }
@@ -1136,36 +1143,35 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
       const maskedDisplay = document.getElementById('settings-masked-key-display');
 
       if (key) {
-        if (apiLabel) apiLabel.textContent = '✅ ' + key.slice(-4);
+        if (apiLabel) apiLabel.textContent = '🔑 ••••' + key.slice(-4);
         if (settingsBtn) {
           settingsBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-950/60', 'text-emerald-700', 'dark:text-emerald-400', 'border-emerald-200', 'dark:border-emerald-800');
           settingsBtn.classList.remove('bg-blue-50', 'dark:bg-blue-950/40', 'text-blue-700', 'dark:text-blue-300', 'border-blue-200', 'dark:border-blue-800');
         }
         if (statusBadge) {
-          statusBadge.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-bold">✅ Valid & Configured</span>';
+          statusBadge.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-bold">✅ Custom Key Configured</span>';
         }
         if (maskedDisplay) {
           maskedDisplay.textContent = maskApiKey(key);
         }
       } else {
-        if (apiLabel) apiLabel.textContent = 'API Key';
+        if (apiLabel) apiLabel.textContent = '⚡ Demo Key';
         if (settingsBtn) {
-          settingsBtn.classList.remove('bg-emerald-50', 'dark:bg-emerald-950/60', 'text-emerald-700', 'dark:text-emerald-400', 'border-emerald-200', 'dark:border-emerald-800');
           settingsBtn.classList.add('bg-blue-50', 'dark:bg-blue-950/40', 'text-blue-700', 'dark:text-blue-300', 'border-blue-200', 'dark:border-blue-800');
+          settingsBtn.classList.remove('bg-emerald-50', 'dark:bg-emerald-950/60', 'text-emerald-700', 'dark:text-emerald-400', 'border-emerald-200', 'dark:border-emerald-800');
         }
         if (statusBadge) {
-          statusBadge.innerHTML = '<span class="text-red-600 dark:text-red-400 font-bold">❌ No Key Configured</span>';
+          statusBadge.innerHTML = '<span class="text-blue-600 dark:text-blue-400 font-bold">⚡ Default / Demo Mode (Active)</span>';
         }
         if (maskedDisplay) {
-          maskedDisplay.textContent = 'No API key set';
+          maskedDisplay.textContent = 'Default / Demo Mode Active (No Key Required)';
         }
       }
     }
 
-    function checkApiKeyGate() {
-      const key = getStoredApiKey();
+    function checkApiKeyGate(forceShow = false) {
       const gateModal = document.getElementById('api-key-gate-modal');
-      if (!key) {
+      if (forceShow) {
         gateModal.classList.remove('hidden');
       } else {
         gateModal.classList.add('hidden');
@@ -1192,11 +1198,7 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
 
     // High-performance API caller with timeout, abort, and caching
     async function callGemini(prompt, systemInstruction = null, onProgress = null) {
-      const apiKey = getStoredApiKey();
-      if (!apiKey) {
-        checkApiKeyGate();
-        throw new Error('No Google Gemini API key configured. Please enter a valid API key to continue.');
-      }
+      const customKey = getStoredApiKey();
 
       // Check Cache (Issue 3: Efficiency)
       const cacheKey = prompt.trim();
@@ -1213,8 +1215,8 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
 
       const startTime = performance.now();
 
-      const url = `${API_ENDPOINT}/${MODEL}:generateContent?key=${apiKey}`;
       const payload = {
+        prompt,
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.2,
@@ -1237,12 +1239,30 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
             }, API_TIMEOUT_MS);
           });
 
-          const fetchPromise = fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            signal
-          });
+          let fetchPromise;
+
+          if (customKey) {
+            // Direct call to Google Gemini API using user's custom key
+            const url = `${API_ENDPOINT}/${MODEL}:generateContent?key=${customKey}`;
+            fetchPromise = fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: payload.contents,
+                generationConfig: payload.generationConfig,
+                ...(systemInstruction ? { systemInstruction: payload.systemInstruction } : {})
+              }),
+              signal
+            });
+          } else {
+            // Default Demo Mode: Use serverless proxy /api/gemini on Vercel
+            fetchPromise = fetch('/api/gemini', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+              signal
+            });
+          }
 
           const res = await Promise.race([fetchPromise, timeoutPromise]);
           clearTimeout(timeoutHandle);
@@ -1253,14 +1273,19 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
             continue;
           }
 
-          const data = await res.json();
-          if (data.error) {
-            if (data.error.message.includes('API_KEY_INVALID') || res.status === 401) {
-              setStoredApiKey(null);
-              checkApiKeyGate();
-              throw new Error('Your Gemini API key appears invalid or expired. Please re-enter a valid key.');
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok || data.error) {
+            if (!customKey && (res.status === 400 || res.status === 404 || res.status === 500)) {
+              checkApiKeyGate(true);
+              throw new Error('Default demo connection not available on local static server. Please enter your Gemini API key.');
             }
-            throw new Error(data.error.message);
+            if (data.error?.message?.includes('API_KEY_INVALID') || res.status === 401) {
+              setStoredApiKey(null);
+              checkApiKeyGate(true);
+              throw new Error('Your Gemini API key appears invalid or expired. Please re-enter a valid key in Settings.');
+            }
+            throw new Error(data.error?.message || `API error ${res.status}`);
           }
 
           const outputText = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -1284,7 +1309,7 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
           await new Promise(r => setTimeout(r, BASE_DELAY * Math.pow(2, attempt)));
         }
       }
-      throw new Error('Connection failed after multiple retries. Please check your network or API key.');
+      throw new Error('Connection failed after multiple retries. Please check your network or enter an API key in Settings.');
     }
 
     // Helper: Truncate long documents for speed (Issue 1: Long docs truncation)
@@ -1733,16 +1758,28 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
       const gateBtn = document.getElementById('gate-validate-btn');
       const gateError = document.getElementById('gate-error-message');
       const toggleVisBtn = document.getElementById('toggle-gate-key-visibility');
-      const learnMoreBtn = document.getElementById('gate-learn-more-btn');
-      const learnMoreDrawer = document.getElementById('gate-learn-more-drawer');
+      const demoModeBtn = document.getElementById('gate-demo-mode-btn');
+      const cancelBtn = document.getElementById('gate-cancel-btn');
 
-      toggleVisBtn.addEventListener('click', () => {
-        gateInput.type = gateInput.type === 'password' ? 'text' : 'password';
-      });
+      if (toggleVisBtn && gateInput) {
+        toggleVisBtn.addEventListener('click', () => {
+          gateInput.type = gateInput.type === 'password' ? 'text' : 'password';
+        });
+      }
 
-      learnMoreBtn.addEventListener('click', () => {
-        learnMoreDrawer.classList.toggle('hidden');
-      });
+      if (demoModeBtn) {
+        demoModeBtn.addEventListener('click', () => {
+          setStoredApiKey(null);
+          gateModal.classList.add('hidden');
+          showToast('Default / Demo Mode Active (Ready to Use)', '⚡');
+        });
+      }
+
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+          gateModal.classList.add('hidden');
+        });
+      }
 
       gateBtn.addEventListener('click', async () => {
         const key = gateInput.value.trim();
@@ -1750,7 +1787,7 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
         gateError.textContent = '';
 
         if (!key) {
-          gateError.textContent = 'Please enter your Google Gemini API key to proceed.';
+          gateError.textContent = 'Please enter a custom Google Gemini API key to validate.';
           gateError.classList.remove('hidden');
           return;
         }
@@ -1760,19 +1797,19 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
 
         const res = await validateApiKey(key);
         gateBtn.disabled = false;
-        gateBtn.innerHTML = `<span>🚀 Validate & Continue</span>`;
+        gateBtn.innerHTML = `<span>🔑 Validate & Save Custom Key</span>`;
 
         if (res.valid) {
           setStoredApiKey(key);
           gateModal.classList.add('hidden');
           validationAttempts = 0;
-          showToast('API Key Validated & Configured!', '🔑');
+          showToast('Custom API Key Validated & Configured!', '🔑');
         } else {
           validationAttempts++;
           const retryLeft = Math.max(0, 3 - validationAttempts);
           gateError.innerHTML = `
             <strong>Validation Failed:</strong> ${escapeHTML(res.error || 'Invalid API key. Check and try again.')}
-            ${retryLeft > 0 ? `<div class="mt-1 text-[11px] text-red-600 dark:text-red-400">Remaining attempts: ${retryLeft}</div>` : `<div class="mt-1 text-[11px] text-red-800 dark:text-red-300">Need a key? Visit <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline font-bold">Google AI Studio</a>.</div>`}
+            ${retryLeft > 0 ? `<div class="mt-1 text-[11px] text-red-600 dark:text-red-400">Remaining attempts: ${retryLeft}</div>` : `<div class="mt-1 text-[11px] text-red-800 dark:text-red-300">Need a key? Visit <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline font-bold">Google AI Studio</a> or click "Launch Default / Demo Mode" above.</div>`}
           `;
           gateError.classList.remove('hidden');
         }
