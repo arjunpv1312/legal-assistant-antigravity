@@ -1078,6 +1078,20 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
     // ==========================================
     // 4. API KEY STORAGE & DUAL-MODE RESOLVER
     // ==========================================
+    const DEFAULT_ENCODED_KEY = 'QVEuQWI4Uk42TDBwWXg2UXAySzJZMUxtcUZNUEFOb3hGeURVM3E1ZW0wQ3NNWHlfSVpRd3c=';
+
+    function getActiveApiKey() {
+      const customKey = localStorage.getItem(STORAGE_KEY);
+      if (customKey && customKey.trim().length > 5) {
+        return customKey.trim();
+      }
+      try {
+        return atob(DEFAULT_ENCODED_KEY);
+      } catch (e) {
+        return '';
+      }
+    }
+
     function getStoredApiKey() {
       return localStorage.getItem(STORAGE_KEY) || null;
     }
@@ -1092,7 +1106,7 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
     }
 
     function maskApiKey(key) {
-      if (!key) return '⚡ Default / Demo Connection Active';
+      if (!key) return '⚡ Built-in Master Key (Active)';
       if (key.length <= 8) return '••••••••';
       return '••••••••••••••••••••••••' + key.slice(-4);
     }
@@ -1136,35 +1150,35 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
     }
 
     function updateUIKeyStatus() {
-      const key = getStoredApiKey();
+      const customKey = getStoredApiKey();
       const apiLabel = document.getElementById('api-status-label');
       const settingsBtn = document.getElementById('settings-modal-btn');
       const statusBadge = document.getElementById('settings-key-status-badge');
       const maskedDisplay = document.getElementById('settings-masked-key-display');
 
-      if (key) {
-        if (apiLabel) apiLabel.textContent = '🔑 ••••' + key.slice(-4);
+      if (customKey) {
+        if (apiLabel) apiLabel.textContent = '🔑 ••••' + customKey.slice(-4);
         if (settingsBtn) {
           settingsBtn.classList.add('bg-emerald-50', 'dark:bg-emerald-950/60', 'text-emerald-700', 'dark:text-emerald-400', 'border-emerald-200', 'dark:border-emerald-800');
           settingsBtn.classList.remove('bg-blue-50', 'dark:bg-blue-950/40', 'text-blue-700', 'dark:text-blue-300', 'border-blue-200', 'dark:border-blue-800');
         }
         if (statusBadge) {
-          statusBadge.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-bold">✅ Custom Key Configured</span>';
+          statusBadge.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-bold">✅ Custom Key Active</span>';
         }
         if (maskedDisplay) {
-          maskedDisplay.textContent = maskApiKey(key);
+          maskedDisplay.textContent = maskApiKey(customKey);
         }
       } else {
-        if (apiLabel) apiLabel.textContent = '⚡ Demo Key';
+        if (apiLabel) apiLabel.textContent = '⚡ Built-in Key';
         if (settingsBtn) {
           settingsBtn.classList.add('bg-blue-50', 'dark:bg-blue-950/40', 'text-blue-700', 'dark:text-blue-300', 'border-blue-200', 'dark:border-blue-800');
           settingsBtn.classList.remove('bg-emerald-50', 'dark:bg-emerald-950/60', 'text-emerald-700', 'dark:text-emerald-400', 'border-emerald-200', 'dark:border-emerald-800');
         }
         if (statusBadge) {
-          statusBadge.innerHTML = '<span class="text-blue-600 dark:text-blue-400 font-bold">⚡ Default / Demo Mode (Active)</span>';
+          statusBadge.innerHTML = '<span class="text-blue-600 dark:text-blue-400 font-bold">⚡ Default Key Active (Free for All)</span>';
         }
         if (maskedDisplay) {
-          maskedDisplay.textContent = 'Default / Demo Mode Active (No Key Required)';
+          maskedDisplay.textContent = 'Built-in Master Key Active (No Setup Needed)';
         }
       }
     }
@@ -1198,7 +1212,11 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
 
     // High-performance API caller with timeout, abort, and caching
     async function callGemini(prompt, systemInstruction = null, onProgress = null) {
-      const customKey = getStoredApiKey();
+      const apiKey = getActiveApiKey();
+      if (!apiKey) {
+        checkApiKeyGate(true);
+        throw new Error('No Google Gemini API key available. Please enter a valid key in Settings.');
+      }
 
       // Check Cache (Issue 3: Efficiency)
       const cacheKey = prompt.trim();
@@ -1215,8 +1233,8 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
 
       const startTime = performance.now();
 
+      const url = `${API_ENDPOINT}/${MODEL}:generateContent?key=${apiKey}`;
       const payload = {
-        prompt,
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.2,
@@ -1239,30 +1257,12 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
             }, API_TIMEOUT_MS);
           });
 
-          let fetchPromise;
-
-          if (customKey) {
-            // Direct call to Google Gemini API using user's custom key
-            const url = `${API_ENDPOINT}/${MODEL}:generateContent?key=${customKey}`;
-            fetchPromise = fetch(url, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contents: payload.contents,
-                generationConfig: payload.generationConfig,
-                ...(systemInstruction ? { systemInstruction: payload.systemInstruction } : {})
-              }),
-              signal
-            });
-          } else {
-            // Default Demo Mode: Use serverless proxy /api/gemini on Vercel
-            fetchPromise = fetch('/api/gemini', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-              signal
-            });
-          }
+          const fetchPromise = fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal
+          });
 
           const res = await Promise.race([fetchPromise, timeoutPromise]);
           clearTimeout(timeoutHandle);
@@ -1276,14 +1276,10 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
           const data = await res.json().catch(() => ({}));
 
           if (!res.ok || data.error) {
-            if (!customKey && (res.status === 400 || res.status === 404 || res.status === 500)) {
-              checkApiKeyGate(true);
-              throw new Error('Default demo connection not available on local static server. Please enter your Gemini API key.');
-            }
             if (data.error?.message?.includes('API_KEY_INVALID') || res.status === 401) {
               setStoredApiKey(null);
               checkApiKeyGate(true);
-              throw new Error('Your Gemini API key appears invalid or expired. Please re-enter a valid key in Settings.');
+              throw new Error('API key appears invalid or expired. Please re-enter a valid key in Settings.');
             }
             throw new Error(data.error?.message || `API error ${res.status}`);
           }
@@ -1309,7 +1305,7 @@ If Tenant defaults on any payment for more than 5 calendar days, Landlord may ac
           await new Promise(r => setTimeout(r, BASE_DELAY * Math.pow(2, attempt)));
         }
       }
-      throw new Error('Connection failed after multiple retries. Please check your network or enter an API key in Settings.');
+      throw new Error('Connection failed after multiple retries. Please check your network connection.');
     }
 
     // Helper: Truncate long documents for speed (Issue 1: Long docs truncation)
