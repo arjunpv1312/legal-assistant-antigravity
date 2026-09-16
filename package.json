@@ -4,8 +4,8 @@
   "description": "Legal Assistant Pro — AI-Powered Legal Document Simplification, Risk Analysis, Clause Highlighting, Contract Comparison, and Checklist Generation powered by Google Gemini 3.6 Flash.",
   "main": "index.html",
   "scripts": {
-    "start": "npx serve .",
-    "dev": "npx serve .",
+    "start": "node server.js",
+    "dev": "node server.js",
     "test": "node scripts/test-all-features.js",
     "deploy": "node scripts/deploy.js"
   },
