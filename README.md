@@ -131,7 +131,7 @@ Legal Assistant Pro is engineered to achieve **100/100 Accessibility** complianc
 ## 🚀 Quick Start
 
 ### Option 1: Open Directly in Browser (Zero Build Step)
-1. Double-click [index.html](index.html) or [legal-assistant.html](legal-assistant.html) in any modern browser.
+1. Double-click [index.html](index.html) in any modern browser.
 2. Enter your free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 3. Click **📂 Sample Contracts** in the top header to load demo contracts instantly.
 
