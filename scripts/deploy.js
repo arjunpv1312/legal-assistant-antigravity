@@ -6,17 +6,17 @@ const { execSync } = require('child_process');
 async function main() {
   console.log('\n⚖️ --- LEGAL ASSISTANT PRO: VERCEL DEPLOYMENT ---');
 
-  // 1. Verify legal-assistant.html
-  const htmlPath = path.join(__dirname, '..', 'legal-assistant.html');
+  // 1. Verify index.html
+  const htmlPath = path.join(__dirname, '..', 'index.html');
   if (!fs.existsSync(htmlPath)) {
-    console.error('❌ Error: legal-assistant.html not found!');
+    console.error('❌ Error: index.html not found!');
     process.exit(1);
   }
-  console.log('✅ Step 1: legal-assistant.html verified.');
+  console.log('✅ Step 1: index.html verified.');
 
   // 2. Pre-flight API test
-  const demoKey = process.env.GEMINI_API_KEY || 'AIzaSyAtMTp4z3Kq5L7NmOvWxYzAbCdEfGhIjKlMnOpQrStUvWxYz';
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${demoKey}`;
+  const demoKey = process.env.GEMINI_API_KEY || '';
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${demoKey}`;
 
   console.log('🔍 Step 2: Testing Gemini API connection...');
   try {

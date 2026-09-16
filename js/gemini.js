@@ -1,8 +1,8 @@
-// Google Gemini 2.0 Flash Client with Exponential Backoff & Dual-Mode Auth (Vercel Serverless / Client Direct)
+// Google Gemini 3.6 Flash Client with Exponential Backoff & Dual-Mode Auth (Vercel Serverless / Client Direct)
 
 class GeminiService {
   constructor() {
-    this.model = 'gemini-2.0-flash';
+    this.model = 'gemini-3.6-flash';
     this.directEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models';
     this.vercelEndpoint = '/api/gemini';
     this.maxRetries = 3;

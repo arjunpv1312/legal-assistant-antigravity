@@ -22,7 +22,7 @@ Legal Assistant Pro is a 5-tool GenAI platform that makes legal information acce
 
 ## 🚀 Quick Start
 
-1. Open `legal-assistant.html` in any modern browser
+1. Open `index.html` in any modern browser
 2. Paste your legal document into a tab
 3. Choose your analysis type
 4. Get instant AI-powered insights
@@ -71,5 +71,5 @@ Arjun (Google Gemini Student Ambassador 2026)
 
 ## 🔗 Links
 
-- **Live Demo:** (Add Vercel URL here after deployment)
+- **Live Demo:** https://legal-assistant-antigravity.vercel.app/
 - **GitHub:** https://github.com/arjunpv1312/legal-assistant-antigravity
