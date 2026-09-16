@@ -2,11 +2,12 @@
 
 [![Gemini](https://img.shields.io/badge/AI_Engine-Google_Gemini_3.6_Flash-blue?style=for-the-badge&logo=google)](https://aistudio.google.com/)
 [![PromptWars](https://img.shields.io/badge/Challenge-PromptWars_5:_Legal_AI-indigo?style=for-the-badge)](https://github.com/arjunpv1312/legal-assistant-antigravity)
+[![Accessibility](https://img.shields.io/badge/Accessibility-WCAG_2.1_AA-success?style=for-the-badge)](https://www.w3.org/WAI/WCAG21/quickref/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Single File App](https://img.shields.io/badge/Architecture-Single--File_Static_HTML5-orange?style=for-the-badge)](#-tech-stack)
 
 > **All-in-One GenAI Legal Intelligence Platform** built for **PromptWars Challenge 5: AI for Legal Assistance & Access**.  
-> Simplifies dense legalese into plain English, audits contracts for punitive liabilities with visual heatmaps, compares agreement drafts side-by-side, provides cited legal Q&A, and generates actionable pre-signing negotiation checklists.
+> Simplifies dense legalese into plain English, audits contracts for punitive liabilities with visual heatmaps, compares agreement drafts side-by-side, provides cited legal Q&A, and generates actionable pre-signing negotiation checklists with full **WCAG 2.1 AA Accessibility**.
 
 ---
 
@@ -21,6 +22,18 @@ Professional legal review costs upwards of **$400–$800/hour**, leaving over **
 
 ---
 
+## 🌍 Impact
+Legal documents exclude non-lawyers. Our solution:
+- 📄 **Simplify:** Jargon → plain English (accessibility)
+- 🔄 **Compare:** Multiple contracts → clear differences (informed decisions)
+- ⚠️ **Risk:** Red flags highlighted → avoid costly mistakes
+- ❓ **Q&A:** Specific answers → confidence in understanding
+- ✅ **Checklist:** Action plan → ready for lawyer consultation
+
+**Result:** Legal literacy for everyone. Reduces anxiety. Enables informed consent.
+
+---
+
 ## ✨ The Solution: 5 AI Legal Tools in 1 Interface
 
 Legal Assistant Pro puts an elite, instantaneous legal analyst directly into your browser:
@@ -31,12 +44,13 @@ Legal Assistant Pro puts an elite, instantaneous legal analyst directly into you
 +-----------------------------------------------------------------------------------+
 |  [📄 Document Simplifier]  [⚠️ Risk Audit]  [🔄 Comparator]  [❓ Q&A]  [✅ Checklist] |
 +-----------------------------------------------------------------------------------+
-|  • Drag & Drop PDF Ingestion (Client-side extraction via PDF.js)                  |
+|  • Full WCAG 2.1 AA Compliance (ARIA, Screen Readers, High Contrast, Focus Ring)  |
+|  • Ultra-Fast 15s Timeout, AbortController & In-Memory Response Caching           |
+|  • Client-Side Drag & Drop PDF Ingestion (PDF.js) & Branded PDF Export (html2pdf)  |
 |  • Powered by Google Gemini 3.6 Flash with Exponential Backoff Resilience          |
 |  • Client-Side Gate Modal (Zero Hardcoded Keys - BYOK Security Architecture)       |
 |  • Interactive Clause Heatmap with 1-Click Counter-Proposals                      |
-|  • Branded PDF Export Engine (html2pdf.js)                                        |
-|  • Dark / Light Theme & Keyboard Shortcuts (Ctrl+Enter / Ctrl+K)                  |
+|  • Dark / Light Theme & Keyboard Shortcuts (Ctrl+Enter, Esc, Ctrl+K, Shift+?)     |
 +-----------------------------------------------------------------------------------+
 ```
 
@@ -44,7 +58,7 @@ Legal Assistant Pro puts an elite, instantaneous legal analyst directly into you
 
 | Tool | Purpose | Key Output & Features |
 | :--- | :--- | :--- |
-| 📄 **Document Simplifier** | Converts 20-page legal jargon into crystal-clear plain English. | Structured breakdown of Rights, Obligations, Financial Penalties, and Termination Windows. |
+| 📄 **Document Simplifier** | Converts dense legal jargon into crystal-clear plain English. | Structured breakdown of Rights, Obligations, Financial Penalties, and Termination Windows. |
 | ⚠️ **Risk & Clause Audit** | Detects hidden liabilities, one-sided covenants, and unfair terms. | **Executive Risk Score (0-100)**, high/medium/low counts, and **interactive colored clause heatmap**. |
 | 🔄 **Contract Comparator** | Side-by-side discrepancy audit of original vs. revised markup drafts. | **Variance Matrix Table**, favorability winner by clause, and negotiation leverage recommendations. |
 | ❓ **Legal Q&A** | Answers document-specific questions grounded strictly in provided text. | Direct cited answers with relevant clause snippets and excerpt citations. |
@@ -52,9 +66,37 @@ Legal Assistant Pro puts an elite, instantaneous legal analyst directly into you
 
 ---
 
+## ♿ Accessibility & Universal Design (WCAG 2.1 AA)
+
+Legal Assistant Pro is engineered to achieve **100/100 Accessibility** compliance under WCAG 2.1 AA:
+
+1. **ARIA Roles & Semantics:** Full `role="tablist"`, `role="tab"`, `role="tabpanel"`, `role="region"`, `role="alert"`, and descriptive `aria-label` attributes on every interactive element.
+2. **Screen Reader Live Updates:** `aria-live="polite"` dynamic announcement regions for AI outputs and loading progress timers.
+3. **Keyboard-First Navigation:**
+   - Full keyboard focusability with visible 2px focus ring (`:focus-visible`).
+   - WAI-ARIA arrow key navigation across tab bars.
+   - `Ctrl+Enter` / `⌘+Enter` to submit active analysis.
+   - `Esc` to clear inputs or dismiss modals.
+   - `Ctrl+K` to open API key settings.
+   - `Shift+?` to trigger contextual help tooltips.
+4. **Color Contrast & Dual Indicators:** All risk tags use text labels + icons (🚨 High, ⚠️ Medium, ✅ Low) and exceed WCAG AA contrast ratio (≥ 4.5:1).
+5. **Mobile Accessibility:** All interactive elements feature touch targets ≥ 44x44px with responsive typography (≥ 16px base font) preventing zoom distortion.
+6. **Skip to Main Content:** Accessible hidden skip link for direct navigation bypass.
+
+---
+
+## ⚡ Performance & Resilience Architecture
+
+- **15-Second Timeout & Abort:** Every API request is monitored by a 15-second timer. If Gemini takes longer or network lags, a retry banner appears with a cancel button to prevent browser hangs.
+- **Instant Abort on Tab Switch:** Switching tabs mid-generation cleanly aborts in-flight network requests using `AbortController`.
+- **In-Memory Query Cache:** Repeated analysis requests for the same text return instantly (`⚡ Cached (0.0s)`), conserving token quotas.
+- **Intelligent Truncation for Long Documents:** Documents exceeding 3,000 characters display a clear truncation status notice and analyze the initial 3,000 characters for sub-second responsiveness.
+
+---
+
 ## 👥 Use Cases & Buyer Personas
 
-- 🎓 **Pre-Law Exam Prep & Students:** Demystify dense case law, extract precedent rules, and generate study revision checklists.
+- 🎓 **Pre-Law Students & Researchers:** Demystify dense case law, extract precedent rules, and generate study revision checklists.
 - 💼 **Contract Negotiation & Founders:** Compare vendor agreements against standard baselines and spot uncapped exposure before signing.
 - 🏢 **HR Compliance Teams:** Audit employment contracts, non-competes, and severance terms for statutory compliance.
 - 🏠 **Real Estate Agents & Tenants:** Translate commercial triple-net (NNN) and residential leases into plain English financial commitments.
@@ -71,12 +113,15 @@ Legal Assistant Pro puts an elite, instantaneous legal analyst directly into you
 
 ---
 
-## ⌨️ Keyboard Shortcuts & Polish
+## ⌨️ Keyboard Shortcuts & Controls
 
 | Shortcut | Action |
 | :--- | :--- |
 | `Ctrl + Enter` / `⌘ + Enter` | Trigger AI analysis on current active tab |
-| `Ctrl + K` / `⌘ + K` | Clear inputs and output on active tab |
+| `Esc` | Clear inputs or close open modals |
+| `Ctrl + K` / `⌘ + K` | Open Gemini API Key Settings modal |
+| `Shift + ?` | View contextual help tooltip for active tool |
+| `← / → Arrow Keys` | Navigate between tabs |
 | `🌙 / ☀️ Toggle` | Switch between Dark Mode and Light Mode |
 | `📋 Copy` | Copy analysis report or recommended counter-term |
 | `📥 Export PDF` | Download branded report with timestamp and Gemini 3.6 Flash watermark |
@@ -86,7 +131,7 @@ Legal Assistant Pro puts an elite, instantaneous legal analyst directly into you
 ## 🚀 Quick Start
 
 ### Option 1: Open Directly in Browser (Zero Build Step)
-1. Double-click [index.html](file:///c:/Users/seren/.gemini/antigravity-ide/scratch/legal-assistant-antigravity/index.html) or [legal-assistant.html](file:///c:/Users/seren/.gemini/antigravity-ide/scratch/legal-assistant-antigravity/legal-assistant.html) in any modern browser.
+1. Double-click [index.html](index.html) or [legal-assistant.html](legal-assistant.html) in any modern browser.
 2. Enter your free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 3. Click **📂 Sample Contracts** in the top header to load demo contracts instantly.
 
@@ -107,27 +152,11 @@ npm start
 
 - **AI Model:** Google Gemini 3.6 Flash (`models/gemini-3.6-flash`)
 - **Frontend Framework:** HTML5, Tailwind CSS CDN (with Dark Mode support), Vanilla JavaScript ES6+
-- **PDF Engine:** [PDF.js v3.11](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js) (PDF ingestion & text extraction)
+- **Accessibility:** WCAG 2.1 AA Compliant with WAI-ARIA 1.2 Patterns
+- **PDF Engine:** [PDF.js v3.11](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js) (Client-side PDF text extraction)
 - **PDF Export:** [html2pdf.js v0.10](https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js) (Client-side report generation)
 - **Markdown & Security:** [Marked.js](https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.0/marked.min.js) & [DOMPurify](https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js)
 - **Deployment:** Vercel & GitHub Pages compatible
-
----
-
-## 🧪 Testing Checklist
-
-- [x] **API Key Gate Modal:** App triggers validation gate modal on first load if no key is stored.
-- [x] **Live Pre-Flight Validation:** Rejects invalid/expired keys with clear error messages.
-- [x] **429 Rate Limit Handling:** Displays automatic countdown timer modal (`5s... 4s... 3s...`) and retries seamlessly.
-- [x] **Document Simplifier:** Translates NDA / SaaS / Lease / Contractor agreements into plain English.
-- [x] **Risk Scorecard & Heatmap:** Interactive colored clause tags with counter-proposals.
-- [x] **Side-by-Side Comparator:** Highlights variance matrix between Document A and Document B.
-- [x] **Document Q&A:** Answers user queries with direct text citations.
-- [x] **Action Checklist:** Generates categorized negotiation checklists by role.
-- [x] **PDF Drag-and-Drop:** Extracts text from uploaded PDF documents across all 5 tools.
-- [x] **Export to PDF:** Downloads clean, formatted PDF reports with timestamp and branding.
-- [x] **Dark Mode Toggle:** Smooth theme switching with persistent user preference.
-- [x] **History Drawer:** Stores last 5 analyses in `localStorage` with individual delete (`🗑️`) support.
 
 ---
 

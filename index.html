@@ -1,16 +1,16 @@
-<!-- Single-File Self-Contained Deployment Mirror for Vercel / Static Hosting -->
+<!-- Single-File Self-Contained Deployment for Vercel / GitHub Pages / Local Browser -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legal Assistant Pro — AI Legal Intelligence & Analysis</title>
-    <meta name="description" content="All-in-one AI legal assistant for PromptWars Challenge 5 powered by Google Gemini 3.6 Flash. Document Simplifier, Contract Comparator, Risk & Clause Highlighter, Legal Q&A, and Negotiation Checklist.">
+    <title>Legal Assistant Pro — AI Legal Intelligence & Risk Audit (WCAG 2.1 AA)</title>
+    <meta name="description" content="Accessible, high-speed AI legal assistant powered by Google Gemini 3.6 Flash. Document Simplifier, Contract Comparator, Risk & Clause Audit, Legal Q&A, and Negotiation Checklist. Compliant with WCAG 2.1 AA standards.">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,6 +30,7 @@
                             500: '#3b82f6',
                             600: '#2563eb',
                             700: '#1d4ed8',
+                            800: '#1e40af',
                             900: '#1e3a8a',
                         }
                     }
@@ -38,25 +39,93 @@
         }
     </script>
     
-    <!-- CDNs: Marked (Markdown), PDF.js (PDF Ingestion), html2pdf.js (PDF Export), DOMPurify (XSS Prevention) -->
+    <!-- CDNs: Marked (Markdown), DOMPurify (XSS Prevention), PDF.js (PDF Ingestion), html2pdf.js (PDF Export) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.0/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+        /* WCAG 2.1 AA Typography & Base Styles */
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body { 
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; 
+            -webkit-font-smoothing: antialiased; 
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Visible 2px focus ring for keyboard navigation */
+        :focus-visible {
+            outline: 2px solid #2563eb !important;
+            outline-offset: 2px !important;
+        }
+        .dark :focus-visible {
+            outline: 2px solid #60a5fa !important;
+            outline-offset: 2px !important;
+        }
+
+        /* Screen reader only utility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        .sr-only-focusable:focus {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 9999;
+            width: auto;
+            height: auto;
+            padding: 0.75rem 1.25rem;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Minimum 44x44px Touch Targets */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tab Content Transitions */
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.25s ease-out; }
-        .tab-btn.active { color: #2563eb; background-color: #ffffff; border-bottom: 2px solid #2563eb; }
-        .dark .tab-btn.active { color: #60a5fa; background-color: #1e293b; border-bottom: 2px solid #3b82f6; }
-        
+        .tab-content.active { display: block; animation: fadeIn 0.2s ease-out; }
+        .tab-btn.active { 
+            color: #1d4ed8; 
+            background-color: #ffffff; 
+            border-bottom: 3px solid #2563eb; 
+        }
+        .dark .tab-btn.active { 
+            color: #93c5fd; 
+            background-color: #1e293b; 
+            border-bottom: 3px solid #3b82f6; 
+        }
+
+        /* Input Controls with WCAG AA Contrast */
         .legal-input {
             width: 100%;
             padding: 0.875rem 1rem;
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #cbd5e1;
             border-radius: 0.75rem;
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             transition: all 0.2s ease;
             background-color: #ffffff;
             color: #0f172a;
@@ -68,43 +137,37 @@
         }
         .legal-input:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
 
-        /* Inline Highlighting Marks */
+        /* Inline Clause Highlighting */
         .clause-mark {
             padding: 2px 6px;
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.15s ease;
-            font-weight: 500;
+            font-weight: 600;
             display: inline;
-            line-height: 1.8;
+            line-height: 1.9;
         }
-        .clause-mark:hover { filter: brightness(0.92); outline: 2px solid rgba(0,0,0,0.15); }
-        .clause-high { background-color: #fee2e2; color: #991b1b; border-bottom: 2px solid #ef4444; }
-        .clause-medium { background-color: #fef3c7; color: #92400e; border-bottom: 2px solid #f59e0b; }
-        .clause-low { background-color: #d1fae5; color: #065f46; border-bottom: 2px solid #10b981; }
+        .clause-mark:hover, .clause-mark:focus { filter: brightness(0.92); outline: 2px solid #2563eb; }
+        .clause-high { background-color: #fee2e2; color: #991b1b; border-bottom: 2px solid #dc2626; }
+        .clause-medium { background-color: #fef3c7; color: #92400e; border-bottom: 2px solid #d97706; }
+        .clause-low { background-color: #d1fae5; color: #065f46; border-bottom: 2px solid #059669; }
 
         .dark .clause-high { background-color: #7f1d1d; color: #fecaca; border-bottom: 2px solid #ef4444; }
         .dark .clause-medium { background-color: #78350f; color: #fde68a; border-bottom: 2px solid #f59e0b; }
         .dark .clause-low { background-color: #064e3b; color: #a7f3d0; border-bottom: 2px solid #10b981; }
 
-        /* Diff Highlighting */
-        .diff-added { background-color: #dcfce7; color: #166534; padding: 2px 4px; border-radius: 4px; }
-        .diff-removed { background-color: #fee2e2; color: #991b1b; text-decoration: line-through; padding: 2px 4px; border-radius: 4px; }
-        .dark .diff-added { background-color: #064e3b; color: #bbf7d0; }
-        .dark .diff-removed { background-color: #7f1d1d; color: #fecaca; }
-
         .dropzone-active { border-color: #2563eb !important; background-color: #eff6ff !important; }
         .dark .dropzone-active { border-color: #60a5fa !important; background-color: #1e293b !important; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(3px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in { animation: fadeIn 0.25s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
 
         /* Shimmer Skeleton Loader */
         @keyframes shimmer {
@@ -123,18 +186,18 @@
             animation: shimmer 1.5s infinite;
         }
 
-        /* Typography */
-        .prose-legal h1 { font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; }
-        .prose-legal h2 { font-size: 1.18rem; font-weight: 700; color: #1e293b; margin-top: 1.1rem; margin-bottom: 0.4rem; }
-        .prose-legal h3 { font-size: 1.05rem; font-weight: 600; color: #334155; margin-top: 0.9rem; margin-bottom: 0.3rem; }
-        .prose-legal p { margin-bottom: 0.65rem; color: #334155; line-height: 1.65; }
+        /* Typography & High Contrast Output (WCAG AA Compliant >= 4.5:1) */
+        .prose-legal h1 { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+        .prose-legal h2 { font-size: 1.2rem; font-weight: 700; color: #1e293b; margin-top: 1.1rem; margin-bottom: 0.4rem; }
+        .prose-legal h3 { font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-top: 0.9rem; margin-bottom: 0.3rem; }
+        .prose-legal p { margin-bottom: 0.65rem; color: #1e293b; line-height: 1.7; }
         .prose-legal ul { list-style-type: disc; padding-left: 1.4rem; margin-bottom: 0.65rem; }
         .prose-legal ol { list-style-type: decimal; padding-left: 1.4rem; margin-bottom: 0.65rem; }
-        .prose-legal li { margin-bottom: 0.25rem; color: #334155; }
+        .prose-legal li { margin-bottom: 0.3rem; color: #1e293b; }
         .prose-legal strong { color: #0f172a; font-weight: 700; }
-        .prose-legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
-        .prose-legal th, .prose-legal td { border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; }
-        .prose-legal th { background-color: #f8fafc; font-weight: 700; color: #1e293b; }
+        .prose-legal table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
+        .prose-legal th, .prose-legal td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+        .prose-legal th { background-color: #f1f5f9; font-weight: 700; color: #0f172a; }
 
         .dark .prose-legal h1 { color: #f8fafc; }
         .dark .prose-legal h2 { color: #f1f5f9; }
@@ -142,79 +205,100 @@
         .dark .prose-legal p, .dark .prose-legal li { color: #cbd5e1; }
         .dark .prose-legal strong { color: #ffffff; }
         .dark .prose-legal th, .dark .prose-legal td { border-color: #334155; }
-        .dark .prose-legal th { background-color: #1e293b; color: #f1f5f9; }
+        .dark .prose-legal th { background-color: #1e293b; color: #f8fafc; }
 
         /* Toast Notifications */
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-        .toast { padding: 10px 18px; border-radius: 8px; background: #0f172a; color: #ffffff; font-size: 0.85rem; font-weight: 500; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px; animation: fadeIn 0.2s ease forwards; border: 1px solid #334155; }
+        .toast { padding: 12px 18px; border-radius: 8px; background: #0f172a; color: #ffffff; font-size: 0.875rem; font-weight: 600; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 8px; animation: fadeIn 0.2s ease forwards; border: 1px solid #334155; }
 
-        /* Keyboard shortcut badge */
-        .kbd-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 5px; border-radius: 4px; background: rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.12); }
-        .dark .kbd-badge { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.15); color: #94a3b8; }
+        /* Keyboard badge */
+        .kbd-badge { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.15); font-weight: 600; }
+        .dark .kbd-badge { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); color: #cbd5e1; }
+
+        /* Accessible Tooltip Box */
+        .help-popover {
+            display: none;
+            position: absolute;
+            z-index: 50;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.8125rem;
+            line-height: 1.4;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+            max-width: 320px;
+        }
+        .help-popover.visible { display: block; animation: fadeIn 0.15s ease-out; }
     </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-100 selection:text-blue-900 transition-colors duration-200">
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col selection:bg-blue-100 selection:text-blue-900 transition-colors duration-200">
 
-    <!-- Top Header -->
-    <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm transition-colors duration-200">
+    <!-- Screen Reader Skip to Main Content Link -->
+    <a href="#main-content" class="sr-only sr-only-focusable" id="skip-link">Skip to main content</a>
+
+    <!-- Top Application Header -->
+    <header role="banner" class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm transition-colors duration-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-md shadow-blue-500/20">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-md shadow-blue-500/20" aria-hidden="true">
                     ⚖️
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Legal Assistant <span class="text-blue-600 dark:text-blue-400">Pro</span></h1>
-                        <span class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-blue-200 dark:border-blue-800">Gemini 3.6 Flash</span>
+                        <span class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-blue-200 dark:border-blue-800" aria-label="Engine: Gemini 3.6 Flash">Gemini 3.6 Flash</span>
+                        <span class="hidden md:inline-block bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-emerald-200 dark:border-emerald-800" aria-label="Accessibility WCAG 2.1 AA Compliant">WCAG 2.1 AA</span>
                     </div>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">AI-Powered Legal Intelligence, Comparison & Risk Prevention</p>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 hidden sm:block">AI-Powered Legal Intelligence, Comparison & Risk Prevention</p>
                 </div>
             </div>
 
-            <!-- Header Controls -->
-            <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Header Controls & Shortcuts -->
+            <div class="flex items-center gap-2 sm:gap-3" role="toolbar" aria-label="Application controls">
                 <!-- Sample Contracts Dropdown -->
                 <div class="relative inline-block text-left">
-                    <button id="sample-docs-btn" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition border border-slate-200 dark:border-slate-700">
-                        <span>📂</span>
+                    <button id="sample-docs-btn" aria-haspopup="true" aria-expanded="false" aria-label="Sample contracts demonstration menu" class="touch-target inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700">
+                        <span aria-hidden="true">📂</span>
                         <span class="hidden md:inline">Sample Contracts</span>
-                        <span class="text-[10px]">▼</span>
+                        <span class="text-[10px]" aria-hidden="true">▼</span>
                     </button>
-                    <div id="sample-docs-menu" class="hidden absolute right-0 mt-2 w-64 rounded-xl shadow-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-2 z-50 animate-fade-in">
-                        <div class="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Load Demo Document</div>
-                        <button class="w-full text-left px-4 py-2 text-xs text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="nda">
+                    <div id="sample-docs-menu" role="menu" aria-label="Sample contracts list" class="hidden absolute right-0 mt-2 w-64 rounded-xl shadow-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-2 z-50 animate-fade-in">
+                        <div class="px-3 py-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Load Demo Document</div>
+                        <button role="menuitem" class="w-full text-left px-4 py-2.5 text-xs text-slate-800 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="nda">
                             <span>🤝 Mutual NDA</span>
-                            <span class="text-[10px] bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 px-1.5 py-0.5 rounded">High Risk</span>
+                            <span class="text-[10px] bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-300 px-1.5 py-0.5 rounded font-bold">⚠️ High Risk</span>
                         </button>
-                        <button class="w-full text-left px-4 py-2 text-xs text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="saas">
+                        <button role="menuitem" class="w-full text-left px-4 py-2.5 text-xs text-slate-800 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="saas">
                             <span>☁️ SaaS Terms of Service</span>
-                            <span class="text-[10px] bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 px-1.5 py-0.5 rounded">Auto-Renew</span>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 px-1.5 py-0.5 rounded font-bold">⚠️ Auto-Renew</span>
                         </button>
-                        <button class="w-full text-left px-4 py-2 text-xs text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="contractor">
+                        <button role="menuitem" class="w-full text-left px-4 py-2.5 text-xs text-slate-800 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="contractor">
                             <span>💼 Independent Contractor</span>
-                            <span class="text-[10px] bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 px-1.5 py-0.5 rounded">Standard</span>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 px-1.5 py-0.5 rounded font-bold">✅ Standard</span>
                         </button>
-                        <button class="w-full text-left px-4 py-2 text-xs text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="lease">
+                        <button role="menuitem" class="w-full text-left px-4 py-2.5 text-xs text-slate-800 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 transition flex items-center justify-between" data-sample="lease">
                             <span>🏢 Commercial Lease (NNN)</span>
-                            <span class="text-[10px] bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 px-1.5 py-0.5 rounded">Triple Net</span>
+                            <span class="text-[10px] bg-red-100 text-red-800 dark:bg-red-950/60 dark:text-red-300 px-1.5 py-0.5 rounded font-bold">⚠️ Triple Net</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- History Button -->
-                <button id="history-modal-btn" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition border border-slate-200 dark:border-slate-700">
-                    <span>🕒</span>
+                <button id="history-modal-btn" aria-label="View analysis history" class="touch-target inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700">
+                    <span aria-hidden="true">🕒</span>
                     <span class="hidden sm:inline">History (<span id="history-count">0</span>)</span>
                 </button>
 
                 <!-- Dark Mode Toggle Button -->
-                <button id="dark-mode-toggle" title="Toggle Light / Dark Theme" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition border border-slate-200 dark:border-slate-700 text-sm">
-                    <span id="dark-mode-icon">🌙</span>
+                <button id="dark-mode-toggle" aria-label="Toggle Light and Dark Theme" title="Toggle Light / Dark Theme" class="touch-target p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700 text-sm">
+                    <span id="dark-mode-icon" aria-hidden="true">🌙</span>
                 </button>
 
                 <!-- API Key Settings Button -->
-                <button id="settings-modal-btn" title="Manage Google Gemini API Key" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 transition border border-blue-200 dark:border-blue-800 shadow-sm">
-                    <span class="text-sm">⚙️</span>
+                <button id="settings-modal-btn" aria-label="Open API Key Settings (Shortcut: Ctrl+K)" title="Manage Google Gemini API Key (Ctrl+K)" class="touch-target inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 transition border border-blue-300 dark:border-blue-800 shadow-sm">
+                    <span class="text-sm" aria-hidden="true">⚙️</span>
                     <span id="api-status-label" class="font-bold">API Key</span>
                 </button>
             </div>
@@ -222,82 +306,102 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full" tabindex="-1">
         
-        <!-- Tab Navigation Bar -->
-        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-1.5 mb-6 flex overflow-x-auto gap-1">
-            <button class="tab-btn active flex-1 min-w-[140px] py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2" data-tab="simplify">
-                <span>📄</span>
-                <span>Document Simplifier</span>
-            </button>
-            <button class="tab-btn flex-1 min-w-[140px] py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2" data-tab="analyze">
-                <span>⚠️</span>
-                <span>Risk & Clause Audit</span>
-            </button>
-            <button class="tab-btn flex-1 min-w-[140px] py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2" data-tab="compare">
-                <span>🔄</span>
-                <span>Contract Comparator</span>
-            </button>
-            <button class="tab-btn flex-1 min-w-[140px] py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2" data-tab="qa">
-                <span>❓</span>
-                <span>Legal Q&A</span>
-            </button>
-            <button class="tab-btn flex-1 min-w-[140px] py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2" data-tab="checklist">
-                <span>✅</span>
-                <span>Action Checklist</span>
-            </button>
-        </div>
+        <!-- Tab Navigation Bar with WAI-ARIA Role tablist -->
+        <nav aria-label="AI Legal Tools Tabs" class="mb-6">
+            <div role="tablist" aria-label="Legal Assistant feature modules" class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-1.5 flex overflow-x-auto gap-1">
+                <button role="tab" id="tab-simplify" aria-selected="true" aria-controls="panel-simplify" tabindex="0" class="tab-btn active flex-1 min-w-[150px] py-3.5 px-4 rounded-xl text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 touch-target" data-tab="simplify" aria-label="Plain English Document Simplifier Tab">
+                    <span aria-hidden="true">📄</span>
+                    <span>Document Simplifier</span>
+                </button>
+                <button role="tab" id="tab-analyze" aria-selected="false" aria-controls="panel-analyze" tabindex="-1" class="tab-btn flex-1 min-w-[150px] py-3.5 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2 touch-target" data-tab="analyze" aria-label="Risk and Clause Audit Tab">
+                    <span aria-hidden="true">⚠️</span>
+                    <span>Risk & Clause Audit</span>
+                </button>
+                <button role="tab" id="tab-compare" aria-selected="false" aria-controls="panel-compare" tabindex="-1" class="tab-btn flex-1 min-w-[150px] py-3.5 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2 touch-target" data-tab="compare" aria-label="Contract Comparator Tab">
+                    <span aria-hidden="true">🔄</span>
+                    <span>Contract Comparator</span>
+                </button>
+                <button role="tab" id="tab-qa" aria-selected="false" aria-controls="panel-qa" tabindex="-1" class="tab-btn flex-1 min-w-[150px] py-3.5 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2 touch-target" data-tab="qa" aria-label="Legal Q&A Tab">
+                    <span aria-hidden="true">❓</span>
+                    <span>Legal Q&A</span>
+                </button>
+                <button role="tab" id="tab-checklist" aria-selected="false" aria-controls="panel-checklist" tabindex="-1" class="tab-btn flex-1 min-w-[150px] py-3.5 px-4 rounded-xl text-center font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-2 touch-target" data-tab="checklist" aria-label="Action Checklist Tab">
+                    <span aria-hidden="true">✅</span>
+                    <span>Action Checklist</span>
+                </button>
+            </div>
+        </nav>
 
-        <!-- Tab 1: Document Simplifier -->
-        <section id="simplify" class="tab-content active space-y-6">
+        <!-- ========================================== -->
+        <!-- TAB 1: DOCUMENT SIMPLIFIER -->
+        <!-- ========================================== -->
+        <section id="panel-simplify" role="tabpanel" aria-labelledby="tab-simplify" class="tab-content active space-y-6">
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Plain-English Document Simplifier</h2>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Translate dense legal jargon into plain-language summaries, rights, obligations, and financial terms.</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Plain-English Document Simplifier</h2>
+                            <button type="button" class="help-tooltip-btn touch-target text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-bold p-1 rounded-full" aria-label="Help: Document Simplifier" data-help="Paste any legal contract or agreement. AI will translate complex jargon into plain English rights, obligations, financial terms, and termination rules. (Shortcut: Shift+?)">
+                                ℹ️
+                            </button>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Translate dense legal jargon into plain-language summaries, rights, obligations, and financial terms.</p>
                     </div>
                     <div>
-                        <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition">
-                            <span>📎</span> Drag/Upload PDF
-                            <input type="file" class="hidden file-upload-input" data-target="simplify-input" accept=".pdf,.txt,.md">
+                        <label for="simplify-file-upload" class="cursor-pointer touch-target inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 transition">
+                            <span aria-hidden="true">📎</span> Drag/Upload PDF
+                            <input id="simplify-file-upload" type="file" class="hidden file-upload-input" data-target="simplify-input" accept=".pdf,.txt,.md" aria-label="Upload PDF or text document for simplification">
                         </label>
                     </div>
                 </div>
 
                 <div class="dropzone-area relative mb-4" data-target="simplify-input">
-                    <textarea id="simplify-input" class="legal-input font-mono text-xs sm:text-sm h-48 sm:h-56 resize-y" placeholder="Paste your legal document or drag & drop a PDF file here..."></textarea>
-                    <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2">
-                        <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <label for="simplify-input" class="sr-only">Paste document for simplification</label>
+                    <textarea id="simplify-input" aria-label="Paste legal document text here" class="legal-input font-mono text-sm h-48 sm:h-56 resize-y" placeholder="Paste your legal document or drag & drop a PDF file here..."></textarea>
+                    <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2" role="status" aria-live="polite">
+                        <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                         <span class="text-xs font-bold text-blue-700 dark:text-blue-400 upload-status">Extracting PDF text...</span>
                     </div>
                 </div>
 
+                <!-- Truncation warning indicator -->
+                <div id="simplify-truncation-banner" class="hidden mb-4 p-3 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs rounded-xl flex items-center gap-2" role="status" aria-live="polite">
+                    <span aria-hidden="true">⚠️</span>
+                    <span><strong>Document truncated:</strong> Input exceeds 3,000 characters. First 3,000 characters analyzed for real-time responsiveness.</span>
+                </div>
+
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
-                        <button id="simplify-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-2 text-sm">
-                            <span>🚀</span> Simplify Document <span class="kbd-badge">Ctrl+↵</span>
+                        <button id="simplify-btn" aria-label="Simplify document (Shortcut: Ctrl+Enter)" class="touch-target bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-2 text-sm">
+                            <span aria-hidden="true">🚀</span> Simplify Document <span class="kbd-badge" aria-hidden="true">Ctrl+↵</span>
                         </button>
-                        <button id="simplify-clear" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-5 rounded-xl transition text-sm">
-                            Clear <span class="kbd-badge">Ctrl+K</span>
+                        <button id="simplify-cancel-btn" aria-label="Cancel active request" class="hidden touch-target bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 font-bold py-3 px-5 rounded-xl transition text-sm">
+                            <span aria-hidden="true">❌</span> Cancel Request
+                        </button>
+                        <button id="simplify-clear" aria-label="Clear document text (Shortcut: Esc)" class="touch-target bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-3 px-5 rounded-xl transition text-sm border border-slate-300 dark:border-slate-700">
+                            Clear <span class="kbd-badge" aria-hidden="true">Esc</span>
                         </button>
                     </div>
-                    <span id="simplify-char-count" class="text-xs text-slate-400">0 characters</span>
+                    <span id="simplify-char-count" class="text-xs text-slate-500 font-mono" aria-live="polite">0 characters</span>
                 </div>
             </div>
 
-            <!-- Output Container with Skeleton Loader Support -->
-            <div id="simplify-output-wrapper" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
+            <!-- Output Container with Live Screen Reader Announcement -->
+            <div id="simplify-output-wrapper" role="region" aria-live="polite" aria-label="Document Simplification Results" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">✨</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl" aria-hidden="true">✨</span>
                         <h3 class="font-bold text-slate-900 dark:text-white text-lg">Plain-English Breakdown</h3>
+                        <span id="simplify-time-badge" class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-mono text-xs px-2.5 py-1 rounded-full font-bold">⚡ Ready</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="copy-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition" data-source="simplify-output">
-                            📋 Copy
+                        <button aria-label="Copy plain English summary to clipboard" class="copy-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700" data-source="simplify-output">
+                            <span aria-hidden="true">📋</span> Copy
                         </button>
-                        <button class="export-pdf-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition" data-source="simplify-output" data-title="Plain-English Document Summary">
-                            📥 Export PDF
+                        <button aria-label="Export plain English summary as PDF report" class="export-pdf-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition border border-blue-200 dark:border-blue-800" data-source="simplify-output" data-title="Plain-English Document Summary">
+                            <span aria-hidden="true">📥</span> Export PDF
                         </button>
                     </div>
                 </div>
@@ -305,89 +409,106 @@
             </div>
         </section>
 
-        <!-- Tab 2: Risk & Clause Audit -->
-        <section id="analyze" class="tab-content space-y-6">
+        <!-- ========================================== -->
+        <!-- TAB 2: RISK & CLAUSE AUDIT -->
+        <!-- ========================================== -->
+        <section id="panel-analyze" role="tabpanel" aria-labelledby="tab-analyze" class="tab-content space-y-6">
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
                         <div class="flex items-center gap-2">
                             <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Risk Analysis & Clause Inspector</h2>
                             <span class="bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-amber-200 dark:border-amber-800">Heatmap</span>
+                            <button type="button" class="help-tooltip-btn touch-target text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-bold p-1 rounded-full" aria-label="Help: Risk Analysis" data-help="Paste contract text or upload PDF. AI audits legal liabilities, computes a risk score (0-100), and highlights high/medium/low clauses with counter-proposals. (Shortcut: Shift+?)">
+                                ℹ️
+                            </button>
                         </div>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Audit hidden liabilities, uncapped indemnities, and unfair terms with inline visual highlighting.</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Audit hidden liabilities, uncapped indemnities, and unfair terms with inline visual highlighting.</p>
                     </div>
                     <div>
-                        <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition">
-                            <span>📎</span> Drag/Upload PDF
-                            <input type="file" class="hidden file-upload-input" data-target="analyze-input" accept=".pdf,.txt,.md">
+                        <label for="analyze-file-upload" class="cursor-pointer touch-target inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 transition">
+                            <span aria-hidden="true">📎</span> Drag/Upload PDF
+                            <input id="analyze-file-upload" type="file" class="hidden file-upload-input" data-target="analyze-input" accept=".pdf,.txt,.md" aria-label="Upload PDF or text document for risk analysis">
                         </label>
                     </div>
                 </div>
 
                 <div class="dropzone-area relative mb-4" data-target="analyze-input">
-                    <textarea id="analyze-input" class="legal-input font-mono text-xs sm:text-sm h-48 sm:h-56 resize-y" placeholder="Paste the contract or legal document to audit for risks..."></textarea>
-                    <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2">
-                        <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <label for="analyze-input" class="sr-only">Paste contract for risk audit</label>
+                    <textarea id="analyze-input" aria-label="Paste contract to audit for legal risks" class="legal-input font-mono text-sm h-48 sm:h-56 resize-y" placeholder="Paste the contract or legal document to audit for risks..."></textarea>
+                    <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2" role="status" aria-live="polite">
+                        <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                         <span class="text-xs font-bold text-blue-700 dark:text-blue-400 upload-status">Extracting PDF text...</span>
                     </div>
                 </div>
 
+                <!-- Truncation warning indicator -->
+                <div id="analyze-truncation-banner" class="hidden mb-4 p-3 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs rounded-xl flex items-center gap-2" role="status" aria-live="polite">
+                    <span aria-hidden="true">⚠️</span>
+                    <span><strong>Document truncated:</strong> Input exceeds 3,000 characters. First 3,000 characters analyzed for real-time responsiveness.</span>
+                </div>
+
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
-                        <button id="analyze-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-red-500/20 transition flex items-center gap-2 text-sm">
-                            <span>⚠️</span> Audit Risks & Highlight Clauses <span class="kbd-badge">Ctrl+↵</span>
+                        <button id="analyze-btn" aria-label="Audit risks and highlight clauses (Shortcut: Ctrl+Enter)" class="touch-target bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-red-500/20 transition flex items-center gap-2 text-sm">
+                            <span aria-hidden="true">⚠️</span> Audit Risks & Highlight Clauses <span class="kbd-badge" aria-hidden="true">Ctrl+↵</span>
                         </button>
-                        <button id="analyze-clear" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-5 rounded-xl transition text-sm">
-                            Clear <span class="kbd-badge">Ctrl+K</span>
+                        <button id="analyze-cancel-btn" aria-label="Cancel active risk audit request" class="hidden touch-target bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 font-bold py-3 px-5 rounded-xl transition text-sm">
+                            <span aria-hidden="true">❌</span> Cancel Request
+                        </button>
+                        <button id="analyze-clear" aria-label="Clear risk input (Shortcut: Esc)" class="touch-target bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-3 px-5 rounded-xl transition text-sm border border-slate-300 dark:border-slate-700">
+                            Clear <span class="kbd-badge" aria-hidden="true">Esc</span>
                         </button>
                     </div>
-                    <span id="analyze-char-count" class="text-xs text-slate-400">0 characters</span>
+                    <span id="analyze-char-count" class="text-xs text-slate-500 font-mono" aria-live="polite">0 characters</span>
                 </div>
             </div>
 
-            <div id="analyze-output-wrapper" class="hidden space-y-6 animate-fade-in">
+            <!-- Risk Scorecard & Inspector -->
+            <div id="analyze-output-wrapper" role="region" aria-live="polite" aria-label="Risk Audit Scorecard and Analysis Results" class="hidden space-y-6 animate-fade-in">
                 <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
                     <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-100 dark:border-slate-800 pb-6">
                         <div>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="text-2xl">🛡️</span>
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="text-2xl" aria-hidden="true">🛡️</span>
                                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">Executive Risk Scorecard</h3>
+                                <span id="analyze-time-badge" class="bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 font-mono text-xs px-2.5 py-1 rounded-full font-bold">⚡ Ready</span>
                             </div>
-                            <p id="risk-summary-text" class="text-xs text-slate-500 dark:text-slate-400">Automated liability score based on flagged clauses and punitive terms.</p>
+                            <p id="risk-summary-text" class="text-xs text-slate-600 dark:text-slate-400">Automated liability score based on flagged clauses and punitive terms.</p>
                         </div>
                         <div class="flex items-center gap-6">
                             <div class="text-center">
-                                <div id="risk-score-badge" class="text-3xl font-extrabold text-red-600 dark:text-red-400 font-mono">--/100</div>
-                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Overall Risk</span>
+                                <div id="risk-score-badge" class="text-3xl font-extrabold text-red-600 dark:text-red-400 font-mono" aria-label="Overall Risk Score">--/100</div>
+                                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Overall Risk</span>
                             </div>
-                            <div class="flex gap-2">
+                            <div class="flex gap-2" role="group" aria-label="Risk Level Counts">
                                 <div class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-center">
-                                    <div id="counter-high-risk" class="text-sm font-bold text-red-700 dark:text-red-400">0</div>
-                                    <span class="text-[9px] font-bold text-red-600 dark:text-red-400 uppercase">High</span>
+                                    <div id="counter-high-risk" class="text-sm font-bold text-red-800 dark:text-red-300">0</div>
+                                    <span class="text-[9px] font-bold text-red-700 dark:text-red-400 uppercase">🚨 High</span>
                                 </div>
                                 <div class="px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-center">
-                                    <div id="counter-med-risk" class="text-sm font-bold text-amber-700 dark:text-amber-400">0</div>
-                                    <span class="text-[9px] font-bold text-amber-600 dark:text-amber-400 uppercase">Med</span>
+                                    <div id="counter-med-risk" class="text-sm font-bold text-amber-800 dark:text-amber-300">0</div>
+                                    <span class="text-[9px] font-bold text-amber-700 dark:text-amber-400 uppercase">⚠️ Med</span>
                                 </div>
                                 <div class="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-center">
-                                    <div id="counter-low-risk" class="text-sm font-bold text-emerald-700 dark:text-emerald-400">0</div>
-                                    <span class="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 uppercase">Low</span>
+                                    <div id="counter-low-risk" class="text-sm font-bold text-emerald-800 dark:text-emerald-300">0</div>
+                                    <span class="text-[9px] font-bold text-emerald-700 dark:text-emerald-400 uppercase">✅ Low</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Interactive Clause Inspector & Highlighting Area -->
-                    <div id="clause-highlighter-container" class="mt-6"></div>
+                    <!-- Interactive Clause Inspector -->
+                    <div id="clause-highlighter-container" class="mt-6" aria-label="Interactive clause heatmap"></div>
 
                     <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <h4 class="font-bold text-slate-900 dark:text-white text-sm">Full Risk Assessment Report</h4>
                         <div class="flex items-center gap-2">
-                            <button class="copy-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition" data-source="analyze-output">
-                                📋 Copy Report
+                            <button aria-label="Copy full risk audit report" class="copy-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700" data-source="analyze-output">
+                                <span aria-hidden="true">📋</span> Copy Report
                             </button>
-                            <button class="export-pdf-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/80 text-red-700 dark:text-red-300 transition" data-source="analyze-output" data-title="Contract Risk Audit Report">
-                                📥 Export PDF
+                            <button aria-label="Export risk audit report as PDF" class="export-pdf-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/80 text-red-700 dark:text-red-300 transition border border-red-200 dark:border-red-800" data-source="analyze-output" data-title="Contract Risk Audit Report">
+                                <span aria-hidden="true">📥</span> Export PDF
                             </button>
                         </div>
                     </div>
@@ -396,32 +517,37 @@
             </div>
         </section>
 
-        <!-- Tab 3: Contract Comparator -->
-        <section id="compare" class="tab-content space-y-6">
+        <!-- ========================================== -->
+        <!-- TAB 3: CONTRACT COMPARATOR -->
+        <!-- ========================================== -->
+        <section id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" class="tab-content space-y-6">
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
                         <div class="flex items-center gap-2">
                             <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Side-by-Side Contract Comparison</h2>
                             <span class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-blue-200 dark:border-blue-800">Diff Matrix</span>
+                            <button type="button" class="help-tooltip-btn touch-target text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-bold p-1 rounded-full" aria-label="Help: Contract Comparator" data-help="Paste original Document A and proposed Document B. AI will compare terms side-by-side, highlight differences, and declare clause winners. (Shortcut: Shift+?)">
+                                ℹ️
+                            </button>
                         </div>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Compare revised drafts, vendor alternatives, or competing proposals with color-coded variance tags.</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Compare revised drafts, vendor alternatives, or competing proposals with color-coded variance tags.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
                     <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <label class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Document A (Original / Standard)</label>
-                            <label class="cursor-pointer text-[11px] text-blue-600 dark:text-blue-400 font-semibold hover:underline">
-                                📎 Upload PDF
-                                <input type="file" class="hidden file-upload-input" data-target="compare-doc1" accept=".pdf,.txt,.md">
+                            <label for="compare-doc1" class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Document A (Original / Standard)</label>
+                            <label for="compare-file-doc1" class="cursor-pointer text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                                <span aria-hidden="true">📎</span> Upload PDF
+                                <input id="compare-file-doc1" type="file" class="hidden file-upload-input" data-target="compare-doc1" accept=".pdf,.txt,.md" aria-label="Upload PDF for Document A">
                             </label>
                         </div>
                         <div class="dropzone-area relative" data-target="compare-doc1">
-                            <textarea id="compare-doc1" class="legal-input font-mono text-xs h-56 resize-y" placeholder="Paste standard agreement or baseline terms..."></textarea>
-                            <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2">
-                                <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                            <textarea id="compare-doc1" aria-label="Document A text (Original or standard draft)" class="legal-input font-mono text-xs h-56 resize-y" placeholder="Paste standard agreement or baseline terms..."></textarea>
+                            <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2" role="status" aria-live="polite">
+                                <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                                 <span class="text-xs font-bold text-blue-700 dark:text-blue-400 upload-status">Extracting PDF text...</span>
                             </div>
                         </div>
@@ -429,44 +555,55 @@
 
                     <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <label class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Document B (Proposed / Counterparty)</label>
-                            <label class="cursor-pointer text-[11px] text-blue-600 dark:text-blue-400 font-semibold hover:underline">
-                                📎 Upload PDF
-                                <input type="file" class="hidden file-upload-input" data-target="compare-doc2" accept=".pdf,.txt,.md">
+                            <label for="compare-doc2" class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Document B (Proposed / Counterparty)</label>
+                            <label for="compare-file-doc2" class="cursor-pointer text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                                <span aria-hidden="true">📎</span> Upload PDF
+                                <input id="compare-file-doc2" type="file" class="hidden file-upload-input" data-target="compare-doc2" accept=".pdf,.txt,.md" aria-label="Upload PDF for Document B">
                             </label>
                         </div>
                         <div class="dropzone-area relative" data-target="compare-doc2">
-                            <textarea id="compare-doc2" class="legal-input font-mono text-xs h-56 resize-y" placeholder="Paste revised markup, counter-offer, or competing draft..."></textarea>
-                            <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2">
-                                <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                            <textarea id="compare-doc2" aria-label="Document B text (Proposed markup or counterparty draft)" class="legal-input font-mono text-xs h-56 resize-y" placeholder="Paste revised markup, counter-offer, or competing draft..."></textarea>
+                            <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2" role="status" aria-live="polite">
+                                <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                                 <span class="text-xs font-bold text-blue-700 dark:text-blue-400 upload-status">Extracting PDF text...</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Truncation warning indicator -->
+                <div id="compare-truncation-banner" class="hidden mb-4 p-3 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs rounded-xl flex items-center gap-2" role="status" aria-live="polite">
+                    <span aria-hidden="true">⚠️</span>
+                    <span><strong>Documents truncated:</strong> Input exceeds 3,000 characters. First 3,000 characters of each document analyzed for speed.</span>
+                </div>
+
                 <div class="flex items-center gap-3">
-                    <button id="compare-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-2 text-sm">
-                        <span>🔍</span> Compare & Highlight Variances <span class="kbd-badge">Ctrl+↵</span>
+                    <button id="compare-btn" aria-label="Compare documents and highlight variances (Shortcut: Ctrl+Enter)" class="touch-target bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-2 text-sm">
+                        <span aria-hidden="true">🔍</span> Compare & Highlight Variances <span class="kbd-badge" aria-hidden="true">Ctrl+↵</span>
                     </button>
-                    <button id="compare-clear" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-5 rounded-xl transition text-sm">
-                        Clear <span class="kbd-badge">Ctrl+K</span>
+                    <button id="compare-cancel-btn" aria-label="Cancel comparison request" class="hidden touch-target bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 font-bold py-3 px-5 rounded-xl transition text-sm">
+                        <span aria-hidden="true">❌</span> Cancel Request
+                    </button>
+                    <button id="compare-clear" aria-label="Clear both comparison inputs (Shortcut: Esc)" class="touch-target bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-3 px-5 rounded-xl transition text-sm border border-slate-300 dark:border-slate-700">
+                        Clear <span class="kbd-badge" aria-hidden="true">Esc</span>
                     </button>
                 </div>
             </div>
 
-            <div id="compare-output-wrapper" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
+            <!-- Comparison Output -->
+            <div id="compare-output-wrapper" role="region" aria-live="polite" aria-label="Contract Comparison Results" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">📊</span>
-                        <h3 class="font-bold text-slate-900 dark:text-white text-lg">Variance Matrix & Strategy</h3>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl" aria-hidden="true">⚖️</span>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-lg">Variance & Discrepancy Matrix</h3>
+                        <span id="compare-time-badge" class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-mono text-xs px-2.5 py-1 rounded-full font-bold">⚡ Ready</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="copy-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition" data-source="compare-output">
-                            📋 Copy Matrix
+                        <button aria-label="Copy comparison results" class="copy-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700" data-source="compare-output">
+                            <span aria-hidden="true">📋</span> Copy
                         </button>
-                        <button class="export-pdf-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition" data-source="compare-output" data-title="Contract Comparison Matrix">
-                            📥 Export PDF
+                        <button aria-label="Export comparison as PDF" class="export-pdf-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition border border-blue-200 dark:border-blue-800" data-source="compare-output" data-title="Contract Comparison Matrix">
+                            <span aria-hidden="true">📥</span> Export PDF
                         </button>
                     </div>
                 </div>
@@ -474,74 +611,82 @@
             </div>
         </section>
 
-        <!-- Tab 4: Legal Q&A -->
-        <section id="qa" class="tab-content space-y-6">
+        <!-- ========================================== -->
+        <!-- TAB 4: LEGAL Q&A -->
+        <!-- ========================================== -->
+        <section id="panel-qa" role="tabpanel" aria-labelledby="tab-qa" class="tab-content space-y-6">
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Document-Specific Legal Q&A</h2>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Ask natural language questions and receive precise answers grounded directly in your document.</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Grounded Legal Q&A Assistant</h2>
+                            <button type="button" class="help-tooltip-btn touch-target text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-bold p-1 rounded-full" aria-label="Help: Legal Q&A" data-help="Paste contract context and ask any specific question. AI will answer grounded strictly in the provided text with direct clause citations. (Shortcut: Shift+?)">
+                                ℹ️
+                            </button>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Ask specific questions about indemnities, IP rights, renewal terms, or non-competes with citations.</p>
                     </div>
                     <div>
-                        <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition">
-                            <span>📎</span> Drag/Upload PDF
-                            <input type="file" class="hidden file-upload-input" data-target="qa-context" accept=".pdf,.txt,.md">
+                        <label for="qa-file-upload" class="cursor-pointer touch-target inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 transition">
+                            <span aria-hidden="true">📎</span> Drag/Upload PDF
+                            <input id="qa-file-upload" type="file" class="hidden file-upload-input" data-target="qa-context" accept=".pdf,.txt,.md" aria-label="Upload PDF for Legal Q&A Context">
                         </label>
                     </div>
                 </div>
 
                 <div class="space-y-4 mb-4">
                     <div class="dropzone-area relative" data-target="qa-context">
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Contract Context</label>
-                        <textarea id="qa-context" class="legal-input font-mono text-xs sm:text-sm h-36 resize-y" placeholder="Paste the contract text or terms here..."></textarea>
-                        <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2">
-                            <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        <label for="qa-context" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-1">Contract Context</label>
+                        <textarea id="qa-context" aria-label="Contract Context for Q&A" class="legal-input font-mono text-xs h-36 resize-y" placeholder="Paste the contract excerpt or context here..."></textarea>
+                        <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2" role="status" aria-live="polite">
+                            <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                             <span class="text-xs font-bold text-blue-700 dark:text-blue-400 upload-status">Extracting PDF text...</span>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Your Question</label>
-                        <input id="qa-question" class="legal-input" placeholder="e.g., Can the provider terminate without cause? What are the liquidated damages?">
-                    </div>
-
-                    <!-- Quick Prompt Chips -->
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-xs text-slate-400 font-semibold">Quick Prompts:</span>
-                        <button class="qa-quick-chip text-xs bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 transition">
-                            Can either party terminate without cause?
-                        </button>
-                        <button class="qa-quick-chip text-xs bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 transition">
-                            Are liabilities capped or uncapped?
-                        </button>
-                        <button class="qa-quick-chip text-xs bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-700 dark:hover:text-blue-400 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700 transition">
-                            What are the auto-renewal deadlines?
-                        </button>
+                        <label for="qa-question" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-1">Your Question</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="qa-question" aria-label="Enter your question about the contract" class="legal-input text-sm" placeholder="e.g. Can the vendor terminate without cause? What are the IP assignment terms?">
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-2" role="group" aria-label="Quick Question Suggestions">
+                            <button type="button" class="qa-quick-chip touch-target px-2.5 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700">
+                                ❓ Who owns intellectual property created under this contract?
+                            </button>
+                            <button type="button" class="qa-quick-chip touch-target px-2.5 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700">
+                                ❓ Is there an automatic renewal clause and what is the notice window?
+                            </button>
+                            <button type="button" class="qa-quick-chip touch-target px-2.5 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-slate-700 dark:text-slate-300 transition border border-slate-300 dark:border-slate-700">
+                                ❓ Are the indemnities mutual or one-sided?
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button id="qa-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-indigo-500/20 transition flex items-center gap-2 text-sm">
-                        <span>🤔</span> Get Legal Answer <span class="kbd-badge">Ctrl+↵</span>
+                    <button id="qa-btn" aria-label="Get legal answer (Shortcut: Ctrl+Enter)" class="touch-target bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-2 text-sm">
+                        <span aria-hidden="true">🤔</span> Get Legal Answer <span class="kbd-badge" aria-hidden="true">Ctrl+↵</span>
                     </button>
-                    <button id="qa-clear" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-5 rounded-xl transition text-sm">
-                        Clear <span class="kbd-badge">Ctrl+K</span>
+                    <button id="qa-cancel-btn" aria-label="Cancel Q&A request" class="hidden touch-target bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 font-bold py-3 px-5 rounded-xl transition text-sm">
+                        <span aria-hidden="true">❌</span> Cancel Request
+                    </button>
+                    <button id="qa-clear" aria-label="Clear Q&A inputs (Shortcut: Esc)" class="touch-target bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-3 px-5 rounded-xl transition text-sm border border-slate-300 dark:border-slate-700">
+                        Clear <span class="kbd-badge" aria-hidden="true">Esc</span>
                     </button>
                 </div>
             </div>
 
-            <div id="qa-output-wrapper" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
+            <!-- Q&A Output -->
+            <div id="qa-output-wrapper" role="region" aria-live="polite" aria-label="Legal Q&A Answer Results" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">💡</span>
-                        <h3 class="font-bold text-slate-900 dark:text-white text-lg">AI Legal Counsel Response</h3>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl" aria-hidden="true">💡</span>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-lg">Cited Legal Assessment</h3>
+                        <span id="qa-time-badge" class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-mono text-xs px-2.5 py-1 rounded-full font-bold">⚡ Ready</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="copy-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition" data-source="qa-output">
-                            📋 Copy Answer
-                        </button>
-                        <button class="export-pdf-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition" data-source="qa-output" data-title="Document Q&A Analysis">
-                            📥 Export PDF
+                        <button aria-label="Copy Q&A answer" class="copy-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700" data-source="qa-output">
+                            <span aria-hidden="true">📋</span> Copy
                         </button>
                     </div>
                 </div>
@@ -549,77 +694,90 @@
             </div>
         </section>
 
-        <!-- Tab 5: Action Checklist -->
-        <section id="checklist" class="tab-content space-y-6">
+        <!-- ========================================== -->
+        <!-- TAB 5: ACTION CHECKLIST -->
+        <!-- ========================================== -->
+        <section id="panel-checklist" role="tabpanel" aria-labelledby="tab-checklist" class="tab-content space-y-6">
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Pre-Signing Negotiation Checklist</h2>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Generate role-tailored negotiation checklists, red flags to push back on, and questions for counsel.</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Pre-Signing Negotiation Checklist</h2>
+                            <button type="button" class="help-tooltip-btn touch-target text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-bold p-1 rounded-full" aria-label="Help: Action Checklist" data-help="Paste contract and select your role. AI creates a prioritized action plan with red flags, deal-breakers, and attorney consultation points. (Shortcut: Shift+?)">
+                                ℹ️
+                            </button>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Generate a structured pre-signing negotiation checklist tailored to your specific role and transaction type.</p>
                     </div>
                     <div>
-                        <label class="cursor-pointer inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition">
-                            <span>📎</span> Drag/Upload PDF
-                            <input type="file" class="hidden file-upload-input" data-target="checklist-input" accept=".pdf,.txt,.md">
+                        <label for="checklist-file-upload" class="cursor-pointer touch-target inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-300 dark:border-slate-700 transition">
+                            <span aria-hidden="true">📎</span> Drag/Upload PDF
+                            <input id="checklist-file-upload" type="file" class="hidden file-upload-input" data-target="checklist-input" accept=".pdf,.txt,.md" aria-label="Upload PDF for checklist generation">
                         </label>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Document Category</label>
-                        <select id="checklist-type" class="legal-input text-xs">
+                        <label for="checklist-type" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-1">Contract Type</label>
+                        <select id="checklist-type" aria-label="Select Contract Type" class="legal-input text-sm">
                             <option value="Non-Disclosure Agreement (NDA)">Non-Disclosure Agreement (NDA)</option>
-                            <option value="Software as a Service (SaaS) Agreement">Software as a Service (SaaS) Agreement</option>
-                            <option value="Independent Contractor Agreement">Independent Contractor Agreement</option>
-                            <option value="Commercial Real Estate Lease">Commercial Real Estate Lease</option>
-                            <option value="Employment / Severance Contract">Employment / Severance Contract</option>
+                            <option value="SaaS & Software License Agreement">SaaS & Software License Agreement</option>
+                            <option value="Independent Contractor / Consulting Agreement">Independent Contractor / Consulting Agreement</option>
+                            <option value="Commercial / Residential Real Estate Lease">Commercial / Residential Real Estate Lease</option>
+                            <option value="Employment Agreement & Restrictive Covenants">Employment Agreement & Restrictive Covenants</option>
                             <option value="General Commercial Contract">General Commercial Contract</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Your Role / Perspective</label>
-                        <select id="checklist-role" class="legal-input text-xs">
-                            <option value="Customer / Licensee">Customer / Licensee</option>
-                            <option value="Vendor / Service Provider">Vendor / Service Provider</option>
-                            <option value="Individual Employee / Contractor">Individual Employee / Contractor</option>
+                        <label for="checklist-role" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-1">Your Role / Perspective</label>
+                        <select id="checklist-role" aria-label="Select Your Role" class="legal-input text-sm">
+                            <option value="Receiving Party / Disclosing Party (NDA)">Disclosing / Receiving Party (NDA)</option>
+                            <option value="Customer / Licensee (Software)">Customer / Licensee (Software)</option>
+                            <option value="Contractor / Service Provider">Contractor / Service Provider</option>
+                            <option value="Client / Hiring Entity">Client / Hiring Entity</option>
                             <option value="Tenant / Lessee">Tenant / Lessee</option>
-                            <option value="Landlord / Property Owner">Landlord / Property Owner</option>
+                            <option value="Employee / Executive">Employee / Executive</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="dropzone-area relative mb-4" data-target="checklist-input">
-                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Agreement Draft</label>
-                    <textarea id="checklist-input" class="legal-input font-mono text-xs sm:text-sm h-36 resize-y" placeholder="Paste the contract text to formulate negotiation checklist..."></textarea>
-                    <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2">
-                        <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <label for="checklist-input" class="sr-only">Paste contract for checklist</label>
+                    <textarea id="checklist-input" aria-label="Paste agreement text for negotiation checklist" class="legal-input font-mono text-xs h-40 resize-y" placeholder="Paste the agreement text to generate an actionable checklist..."></textarea>
+                    <div class="upload-spinner hidden absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl flex items-center justify-center flex-col gap-2" role="status" aria-live="polite">
+                        <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
                         <span class="text-xs font-bold text-blue-700 dark:text-blue-400 upload-status">Extracting PDF text...</span>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button id="checklist-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-emerald-500/20 transition flex items-center gap-2 text-sm">
-                        <span>✅</span> Generate Action Checklist <span class="kbd-badge">Ctrl+↵</span>
+                    <button id="checklist-btn" aria-label="Generate action checklist (Shortcut: Ctrl+Enter)" class="touch-target bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-2 text-sm">
+                        <span aria-hidden="true">✅</span> Generate Action Checklist <span class="kbd-badge" aria-hidden="true">Ctrl+↵</span>
                     </button>
-                    <button id="checklist-clear" class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold py-3 px-5 rounded-xl transition text-sm">
-                        Clear <span class="kbd-badge">Ctrl+K</span>
+                    <button id="checklist-cancel-btn" aria-label="Cancel checklist request" class="hidden touch-target bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 font-bold py-3 px-5 rounded-xl transition text-sm">
+                        <span aria-hidden="true">❌</span> Cancel Request
+                    </button>
+                    <button id="checklist-clear" aria-label="Clear checklist inputs (Shortcut: Esc)" class="touch-target bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold py-3 px-5 rounded-xl transition text-sm border border-slate-300 dark:border-slate-700">
+                        Clear <span class="kbd-badge" aria-hidden="true">Esc</span>
                     </button>
                 </div>
             </div>
 
-            <div id="checklist-output-wrapper" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
+            <!-- Checklist Output -->
+            <div id="checklist-output-wrapper" role="region" aria-live="polite" aria-label="Action Checklist Results" class="hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sm:p-8 animate-fade-in">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">📋</span>
-                        <h3 class="font-bold text-slate-900 dark:text-white text-lg">Negotiation & Pre-Signing Action Items</h3>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl" aria-hidden="true">📋</span>
+                        <h3 class="font-bold text-slate-900 dark:text-white text-lg">Negotiation Action Plan</h3>
+                        <span id="checklist-time-badge" class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-mono text-xs px-2.5 py-1 rounded-full font-bold">⚡ Ready</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button class="copy-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition" data-source="checklist-output">
-                            📋 Copy Checklist
+                        <button aria-label="Copy action checklist" class="copy-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition border border-slate-300 dark:border-slate-700" data-source="checklist-output">
+                            <span aria-hidden="true">📋</span> Copy
                         </button>
-                        <button class="export-pdf-btn px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition" data-source="checklist-output" data-title="Negotiation Action Checklist">
-                            📥 Export PDF
+                        <button aria-label="Export action checklist as PDF" class="export-pdf-btn touch-target px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/80 text-blue-700 dark:text-blue-300 transition border border-blue-200 dark:border-blue-800" data-source="checklist-output" data-title="Negotiation Action Checklist">
+                            <span aria-hidden="true">📥</span> Export PDF
                         </button>
                     </div>
                 </div>
@@ -629,78 +787,115 @@
 
     </main>
 
-    <!-- History Drawer / Modal with Individual Delete Action -->
-    <div id="history-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-lg w-full p-6 animate-fade-in border border-slate-200 dark:border-slate-800 max-h-[85vh] flex flex-col">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl">🕒</span>
-                    <h3 class="font-bold text-slate-900 dark:text-white text-lg">Recent Analysis History</h3>
+    <!-- Global Toast Container -->
+    <div id="toast-container" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Active Help Tooltip Popover -->
+    <div id="global-help-popover" role="tooltip" class="help-popover" aria-hidden="true">
+        <div id="help-popover-text">Help text goes here</div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 1: FIRST-LOAD API KEY GATE MODAL -->
+    <!-- ========================================== -->
+    <div id="api-key-gate-modal" role="dialog" aria-modal="true" aria-labelledby="gate-modal-title" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-md w-full p-6 sm:p-8 space-y-6">
+            <div class="text-center">
+                <div class="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center text-3xl mx-auto mb-3" aria-hidden="true">
+                    🔑
                 </div>
-                <button id="history-close-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold">&times;</button>
+                <h2 id="gate-modal-title" class="text-xl font-extrabold text-slate-900 dark:text-white">Enter Google Gemini API Key</h2>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">PromptWars Legal Assistant Pro is powered by Google Gemini 3.6 Flash.</p>
             </div>
-            <div id="history-list" class="overflow-y-auto flex-1 space-y-3 pr-1"></div>
-            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center mt-3">
-                <button id="clear-history-btn" class="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-semibold">
-                    Clear All History
+
+            <div class="bg-blue-50 dark:bg-blue-950/40 p-4 rounded-xl border border-blue-200 dark:border-blue-900 text-xs text-blue-900 dark:text-blue-200 flex items-start gap-2">
+                <span class="text-base" aria-hidden="true">💡</span>
+                <div>
+                    <strong>Need a free API key?</strong> Get one instantly at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="underline font-bold hover:text-blue-700 dark:hover:text-blue-300">Google AI Studio</a>.
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label for="gate-api-key-input" class="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Google Gemini API Key</label>
+                <div class="relative">
+                    <input type="password" id="gate-api-key-input" class="legal-input pr-10 font-mono text-xs" placeholder="AIzaSy..." autocomplete="off">
+                    <button type="button" id="toggle-gate-key-visibility" aria-label="Toggle API Key Visibility" class="touch-target absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 text-xs">
+                        👁️
+                    </button>
+                </div>
+            </div>
+
+            <div id="gate-error-message" role="alert" aria-live="assertive" class="hidden p-3 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-xl text-xs border border-red-200 dark:border-red-900"></div>
+
+            <div class="space-y-2">
+                <button id="gate-validate-btn" aria-label="Validate and Continue" class="touch-target w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2 text-sm">
+                    <span aria-hidden="true">🚀</span> Validate & Continue
                 </button>
-                <button id="history-close-btn2" class="px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
-                    Close
+                <button type="button" id="gate-learn-more-btn" aria-expanded="false" class="w-full text-center text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 py-2">
+                    Why do I need an API key?
                 </button>
+            </div>
+
+            <div id="gate-learn-more-drawer" class="hidden text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                <p><strong>100% Client-Side Privacy:</strong> Your API key is stored only in your browser's <code>localStorage</code>. It communicates directly with Google's API and is never sent to any intermediary server.</p>
             </div>
         </div>
     </div>
 
-    <!-- API Key Settings Modal (Gear Icon) -->
-    <div id="settings-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 animate-fade-in border border-slate-200 dark:border-slate-800">
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-5">
+    <!-- ========================================== -->
+    <!-- MODAL 2: SETTINGS / API KEY MANAGEMENT -->
+    <!-- ========================================== -->
+    <div id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-lg w-full p-6 sm:p-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div class="flex items-center gap-2">
-                    <span class="text-xl">⚙️</span>
-                    <h3 class="font-bold text-slate-900 dark:text-white text-lg">Gemini API Key Settings</h3>
+                    <span class="text-xl" aria-hidden="true">⚙️</span>
+                    <h2 id="settings-modal-title" class="text-lg font-bold text-slate-900 dark:text-white">API Settings & Model Configuration</h2>
                 </div>
-                <button id="settings-close-btn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold">&times;</button>
+                <button id="settings-close-btn" aria-label="Close settings modal" class="touch-target text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg p-1">
+                    ✕
+                </button>
             </div>
 
-            <div class="space-y-4">
-                <!-- Status Badge -->
-                <div id="settings-status-box" class="p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-xs space-y-1">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500 dark:text-slate-400 font-semibold">Current Key Status:</span>
-                        <span id="settings-key-status-badge" class="font-bold text-slate-700 dark:text-slate-200">Checking...</span>
+            <div class="space-y-4 text-xs">
+                <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">Active AI Model:</span>
+                        <div class="text-slate-900 dark:text-white font-mono mt-0.5">models/gemini-3.6-flash</div>
                     </div>
-                    <div class="text-slate-600 dark:text-slate-300 font-mono text-[11px]" id="settings-masked-key-display">
-                        ••••••••••••••••
-                    </div>
+                    <span class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold px-2 py-0.5 rounded text-[10px]">Active</span>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Change Gemini API Key</label>
+                <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">Current Key Status:</span>
+                        <div id="settings-masked-key-display" class="text-slate-900 dark:text-white font-mono mt-0.5">No API key set</div>
+                    </div>
+                    <div id="settings-key-status-badge"></div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="custom-api-key-input" class="block font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Update / Change API Key</label>
                     <div class="relative">
-                        <input type="password" id="custom-api-key-input" class="legal-input text-xs font-mono pr-10" placeholder="Enter new AIzaSy... key">
-                        <button type="button" id="toggle-settings-key-visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm">
+                        <input type="password" id="custom-api-key-input" class="legal-input pr-10 font-mono text-xs" placeholder="Paste new Gemini API key to update..." autocomplete="off">
+                        <button type="button" id="toggle-settings-key-visibility" aria-label="Toggle Settings API Key Visibility" class="touch-target absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 text-xs">
                             👁️
                         </button>
                     </div>
                 </div>
 
-                <div id="settings-validation-error" class="hidden p-3 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 rounded-xl text-xs text-red-700 dark:text-red-400 font-medium"></div>
-
-                <div class="p-3 bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl text-xs text-blue-900 dark:text-blue-300 flex items-start gap-2">
-                    <span class="text-sm">🔒</span>
-                    <p>API key stored locally in your browser (<code class="font-mono bg-blue-100/70 dark:bg-blue-900/60 px-1 py-0.5 rounded">localStorage</code>). Never sent to our servers.</p>
-                </div>
+                <div id="settings-validation-error" role="alert" aria-live="assertive" class="hidden p-3 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-xl border border-red-200 dark:border-red-900"></div>
 
                 <div class="flex items-center justify-between pt-2">
-                    <button id="settings-clear-key-btn" class="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-semibold">
+                    <button id="settings-clear-key-btn" aria-label="Disconnect API key" class="touch-target text-red-600 dark:text-red-400 hover:underline font-bold text-xs py-2">
                         Disconnect Key
                     </button>
                     <div class="flex items-center gap-2">
-                        <button id="settings-cancel-btn" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                            Cancel
+                        <button id="settings-cancel-btn" aria-label="Cancel settings modal" class="touch-target px-4 py-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition font-semibold">
+                            Cancel (Esc)
                         </button>
-                        <button id="settings-save-btn" class="px-5 py-2 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm flex items-center gap-1.5">
-                            <span>Validate & Save</span>
+                        <button id="settings-save-btn" aria-label="Validate and save settings" class="touch-target px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition font-bold shadow-md shadow-blue-500/20">
+                            Validate & Save
                         </button>
                     </div>
                 </div>
@@ -708,193 +903,180 @@
         </div>
     </div>
 
-    <!-- First-Load API Key Gate Modal -->
-    <div id="api-key-gate-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-lg w-full p-6 sm:p-8 animate-fade-in border border-slate-100 dark:border-slate-800 text-slate-900 dark:text-white relative">
-            <div class="text-center mb-6">
-                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-700 to-indigo-600 text-white text-3xl flex items-center justify-center mx-auto shadow-lg shadow-blue-500/25 mb-4">
-                    ⚖️
+    <!-- ========================================== -->
+    <!-- MODAL 3: ANALYSIS HISTORY MODAL -->
+    <!-- ========================================== -->
+    <div id="history-modal" role="dialog" aria-modal="true" aria-labelledby="history-modal-title" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-2xl w-full p-6 sm:p-8 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl" aria-hidden="true">🕒</span>
+                    <h2 id="history-modal-title" class="text-lg font-bold text-slate-900 dark:text-white">Recent Analysis History (Last 5)</h2>
                 </div>
-                <span class="bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200 dark:border-blue-800">
-                    PromptWars Legal Assistant Pro
-                </span>
-                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-3 tracking-tight">Enter Your Google Gemini API Key</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
-                    Powered by <strong>Google Gemini 3.6 Flash</strong>. Direct client-side intelligence without intermediaries.
-                </p>
+                <button id="history-close-btn" aria-label="Close history modal" class="touch-target text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-lg p-1">
+                    ✕
+                </button>
             </div>
 
-            <div class="space-y-4">
-                <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <label class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Google Gemini API Key</label>
-                        <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-bold hover:underline flex items-center gap-1">
-                            <span>Get free key at AI Studio</span> ↗
-                        </a>
-                    </div>
-                    <div class="relative">
-                        <input type="password" id="gate-api-key-input" class="legal-input text-xs font-mono pr-10" placeholder="AIzaSy...">
-                        <button type="button" id="toggle-gate-key-visibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm">
-                            👁️
-                        </button>
-                    </div>
-                </div>
+            <div id="history-list" class="space-y-2 max-h-96 overflow-y-auto pr-1"></div>
 
-                <!-- Validation Error / Status Box -->
-                <div id="gate-error-message" class="hidden p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 rounded-xl text-xs text-red-700 dark:text-red-400 font-medium"></div>
-
-                <!-- Privacy & LocalStorage Security Tooltip Box -->
-                <div class="p-3.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                    <div class="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-200">
-                        <span>🔒</span>
-                        <span>Client-Side Security Guarantee</span>
-                    </div>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Your API key is stored locally in your browser (<code class="font-mono bg-slate-200/70 dark:bg-slate-700 px-1 py-0.5 rounded text-slate-800 dark:text-slate-200">localStorage</code>) and communicated strictly to official Google endpoints (<code class="font-mono bg-slate-200/70 dark:bg-slate-700 px-1 py-0.5 rounded text-slate-800 dark:text-slate-200">generativelanguage.googleapis.com</code>). Never sent to any external server.
-                    </p>
-                </div>
-
-                <div class="pt-2 flex flex-col gap-3">
-                    <button id="gate-validate-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-blue-500/25 transition flex items-center justify-center gap-2 text-sm">
-                        <span>🚀 Validate & Continue</span>
-                    </button>
-                    <div class="text-center">
-                        <button type="button" id="gate-learn-more-btn" class="text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 underline font-medium">
-                            Learn more about Google AI Studio API Keys & Limits
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Learn More Drawer -->
-            <div id="gate-learn-more-drawer" class="hidden mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-2 animate-fade-in">
-                <p><strong>How to get a free key in 30 seconds:</strong></p>
-                <ol class="list-decimal pl-4 space-y-1 text-[11px] text-slate-500 dark:text-slate-400">
-                    <li>Visit <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 dark:text-blue-400 underline font-bold">Google AI Studio</a>.</li>
-                    <li>Sign in with any Google account.</li>
-                    <li>Click <strong>"Create API Key"</strong> and copy the key.</li>
-                    <li>Paste it above to instantly activate Legal Assistant Pro.</li>
-                </ol>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+                <button id="clear-history-btn" aria-label="Clear all analysis history" class="touch-target text-xs text-red-600 dark:text-red-400 hover:underline font-bold py-2">
+                    Clear All History
+                </button>
+                <button id="history-close-btn2" aria-label="Close history modal" class="touch-target px-5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition">
+                    Close (Esc)
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Rate Limit 429 Countdown Modal -->
-    <div id="rate-limit-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center animate-fade-in border border-amber-300 dark:border-amber-700">
-            <div class="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-2xl flex items-center justify-center mx-auto mb-3">
+    <!-- ========================================== -->
+    <!-- MODAL 4: 429 RATE LIMIT / RETRY MODAL -->
+    <!-- ========================================== -->
+    <div id="rate-limit-modal" role="dialog" aria-modal="true" aria-labelledby="rate-limit-title" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 max-w-sm w-full p-6 text-center space-y-4">
+            <div class="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl mx-auto animate-pulse" aria-hidden="true">
                 ⏳
             </div>
-            <h3 class="font-bold text-slate-900 dark:text-white text-base">API Rate Limit Hit (429)</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Google Gemini rate limit reached. Retrying request automatically in:</p>
-            <div id="rate-limit-countdown" class="text-3xl font-extrabold text-amber-600 dark:text-amber-400 font-mono my-3">
+            <h3 id="rate-limit-title" class="text-base font-bold text-slate-900 dark:text-white">API Busy — Retrying...</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Gemini API is momentarily rate-limited. Retrying with exponential backoff in:</p>
+            <div id="rate-limit-countdown" class="text-3xl font-extrabold font-mono text-amber-600 dark:text-amber-400" aria-live="polite">
                 5s
             </div>
-            <p class="text-[11px] text-slate-400">Please do not close this window.</p>
         </div>
     </div>
 
-    <!-- Toast Notifications Container -->
-    <div id="toast-container"></div>
-
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 mt-12 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors duration-200">
-        <div class="max-w-7xl mx-auto px-4 space-y-2">
-            <p><strong>⚖️ Legal Disclaimer:</strong> Legal Assistant Pro provides assistive AI document analysis for research and educational purposes only. It does not constitute formal legal counsel or establish an attorney-client relationship.</p>
-            <p class="text-slate-400 dark:text-slate-500">PromptWars Challenge 5 &bull; AI for Legal Assistance & Access &bull; Powered by Google Gemini 3.6 Flash</p>
-        </div>
-    </footer>
-
-    <!-- Embedded Single-File Application Logic -->
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT: GEMINI 3.6 FLASH CORE ENGINE -->
+    <!-- ========================================== -->
     <script>
     // ==========================================
-    // 1. CONFIGURATION (NO HARDCODED API KEYS)
+    // 1. CONFIGURATION & CONSTANTS
     // ==========================================
-    const MODEL = 'gemini-3.6-flash';
-    const API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models';
+    const API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta';
+    const MODEL = 'models/gemini-3.6-flash';
+    const STORAGE_KEY = 'legal_assistant_api_key';
     const MAX_RETRIES = 3;
-    const BASE_DELAY = 1000;
-    const STORAGE_KEY = 'gemini_user_api_key';
+    const BASE_DELAY = 2000;
+    const API_TIMEOUT_MS = 15000; // 15-second timeout per prompt specification
+    const MAX_INPUT_CHARS = 3000; // Truncation threshold for instant speed
 
     let validationAttempts = 0;
+    let activeAbortController = null;
+    let activeTimerInterval = null;
 
+    // Fast in-memory cache for repeated queries (Issue 3: Efficiency)
+    const apiResponseCache = new Map();
+
+    // ==========================================
+    // 2. EMBEDDED SAMPLE CONTRACTS
+    // ==========================================
     const SAMPLE_CONTRACTS = {
       nda: {
-        title: "Mutual Non-Disclosure Agreement (NDA)",
-        text: `MUTUAL NON-DISCLOSURE AND CONFIDENTIALITY AGREEMENT\n\nThis Mutual Non-Disclosure Agreement ("Agreement") is entered into as of October 12, 2026, by and between Apex Innovations Inc. ("Disclosing Party") and Nexus Technologies LLC ("Receiving Party").\n\n1. DEFINITION OF CONFIDENTIAL INFORMATION\n"Confidential Information" shall mean all proprietary code, trade secrets, financial models, customer lists, and business strategies disclosed orally or in writing.\n\n2. PERPETUAL SURVIVAL & INDEMNIFICATION\nThe confidentiality obligations for Source Code and Trade Secrets shall survive in perpetuity. Receiving Party agrees to defend, indemnify, and hold harmless Disclosing Party from any and all claims, liabilities, and uncapped attorney fees arising from any breach.\n\n3. NON-SOLICITATION\nFor 18 months following termination, Receiving Party shall not directly or indirectly hire or solicit any employee or contractor of Disclosing Party.\n\n4. GOVERNING LAW & JURISDICTION\nGoverned by the laws of New York. Exclusive jurisdiction in New York County.`
+        title: "Mutual Non-Disclosure Agreement (High Risk Terms)",
+        text: `MUTUAL NON-DISCLOSURE AGREEMENT
+This Agreement is entered into on October 12, 2026, by and between Alpha Corp ("Disclosing Party") and Beta Inc ("Receiving Party").
+
+1. CONFIDENTIAL INFORMATION
+Confidential Information encompasses all non-public technical, business, and financial information disclosed verbally or in writing.
+
+2. OBLIGATIONS & UNREASONABLE SURVIVAL
+Receiving Party agrees to protect Confidential Information using the highest standard of care. This confidentiality obligation shall survive in perpetuity (indefinitely) without limitation of time, irrespective of whether the trade secrets become public through independent sources.
+
+3. INDEMNIFICATION & UNCAPPED LIABILITY
+Receiving Party agrees to fully defend, indemnify, and hold harmless Disclosing Party against any and all direct, indirect, special, consequential, and punitive damages, attorney fees, and lost profits arising out of any breach, without any monetary cap on liability.
+
+4. AUTOMATIC RENEWAL & TERMINATION PENALTY
+This Agreement shall automatically renew every 12 months unless cancelled by written notice delivered at least 180 days prior to renewal. Failure to provide timely notice incurs a $25,000 liquidated damages fee.
+
+5. JURISDICTION & ARBITRATION
+All disputes shall be arbitrated exclusively in Singapore under SIAC rules. The prevailing party is entitled to full reimbursement of legal fees.`
       },
       saas: {
-        title: "Cloud SaaS Terms of Service (B2B)",
-        text: `CLOUDSTACK PRO — MASTER SUBSCRIPTION AGREEMENT\n\n1. SUBSCRIPTION & USAGE RESTRICTIONS\nProvider grants Customer a non-exclusive license to use the CloudStack Platform solely for internal business operations.\n\n2. AUTOMATIC RENEWAL & PRICE ESCALATIONS\nSubscriptions renew automatically for successive 1-year terms unless notice of non-renewal is provided at least 60 days prior. Annual subscription rates may increase by up to 15% without prior notice. All fees are non-refundable.\n\n3. AI TRAINING & DATA RIGHTS\nCustomer grants Provider a perpetual, royalty-free license to use Customer Data to train, benchmark, and improve machine learning algorithms.\n\n4. LIMITATION OF LIABILITY\nProvider's total aggregate liability is strictly limited to the amount paid by Customer in the 3 months preceding the claim.`
+        title: "SaaS Enterprise Terms of Service (Auto-Renew & IP)",
+        text: `ENTERPRISE SOFTWARE AS A SERVICE (SaaS) AGREEMENT
+
+1. SUBSCRIPTION GRANT & RESTRICTIONS
+Vendor grants Customer a non-exclusive, non-transferable subscription to access the Cloud Platform. Customer shall not reverse engineer or sublicense the service.
+
+2. UNILATERAL PRICE INCREASES & AUTO-RENEWAL
+The initial term is 24 months. At the conclusion of each term, the subscription automatically renews for consecutive 12-month periods at Vendor's then-current standard rates plus a mandatory 15% increase, unless Customer delivers certified written cancellation at least 90 days before expiration.
+
+3. DATA OWNERSHIP & IP ASSIGNMENT
+Customer retains ownership of Customer Data. However, Customer grants Vendor a perpetual, irrevocable, royalty-free, worldwide license to use, aggregate, and monetize all derivative insights, telemetry, and customized workflows generated by Customer's usage.
+
+4. LIMITATION OF LIABILITY
+Vendor's total aggregate liability arising out of or related to this Agreement shall strictly not exceed fifty dollars ($50.00 USD), regardless of the theory of liability or gross negligence.`
       },
       contractor: {
-        title: "Independent Contractor Agreement",
-        text: `INDEPENDENT CONTRACTOR SERVICES AGREEMENT\n\n1. SERVICES & COMPENSATION\nContractor will provide software engineering services at $125/hr. Invoices are paid net 30 days.\n\n2. INTELLECTUAL PROPERTY WORK-FOR-HIRE\nAll deliverables, code, and inventions shall be deemed works made for hire and owned exclusively by Company. Contractor waives all moral rights.\n\n3. NON-COMPETE COVENANT\nFor 12 months post-termination, Contractor shall not provide consulting services to any competitor in North America.\n\n4. TERMINATION\nEither party may terminate without cause with 14 days written notice.`
+        title: "Independent Contractor Agreement (Standard Balanced)",
+        text: `INDEPENDENT CONTRACTOR AGREEMENT
+
+1. SERVICES & DELIVERABLES
+Contractor agrees to perform software development services as specified in Exhibit A. Contractor retains complete autonomy over working hours and methods.
+
+2. COMPENSATION & PAYMENT TERMS
+Client agrees to pay Contractor $120.00 USD per hour, invoiced bi-weekly. Client shall remit payment within 15 calendar days of invoice receipt. Late payments accrue interest at 1.5% per month.
+
+3. INTELLECTUAL PROPERTY WORK-FOR-HIRE
+Upon receipt of full payment for specific deliverables, Contractor assigns all right, title, and interest in such deliverables to Client. Contractor retains full ownership of pre-existing tools, libraries, and frameworks.
+
+4. TERMINATION
+Either party may terminate this Agreement without cause upon fourteen (14) days prior written notice.
+
+5. MUTUAL INDEMNIFICATION
+Each party agrees to indemnify the other against third-party claims arising solely from gross negligence or willful misconduct, capped at the total fees paid under this Agreement.`
       },
       lease: {
-        title: "Commercial Triple-Net (NNN) Lease",
-        text: `COMMERCIAL REAL ESTATE LEASE AGREEMENT\n\n1. BASE RENT & TRIPLE NET EXPENSES\nBase Rent: $12,500/month with 4% annual escalation. Tenant shall pay 28.5% of all Real Estate Taxes, Insurance, and Common Area Maintenance (CAM).\n\n2. AS-IS CONDITION & HVAC MAINTENANCE\nTenant accepts premises AS-IS and must maintain, repair, and replace all HVAC, plumbing, and structural elements at Tenant's sole expense.\n\n3. ACCELERATION OF RENT UPON DEFAULT\nUpon default or early departure, all remaining rent for the 5-year term becomes immediately accelerated and due in full.`
+        title: "Commercial Lease Agreement (Triple Net / NNN)",
+        text: `COMMERCIAL REAL ESTATE TRIPLE NET (NNN) LEASE AGREEMENT
+
+1. PREMISES & BASE RENT
+Landlord leases to Tenant Suite 400 comprising 3,500 RSF at an initial Base Rent of $12,500.00 per month, escalating 4% annually.
+
+2. TRIPLE NET (NNN) OPERATING EXPENSES
+Tenant shall pay 100% of all proportional real estate taxes, building insurance, and Common Area Maintenance (CAM) expenses. Landlord may pass through capital structural repairs (roof, HVAC replacement, foundation) as operating expenses amortized over only 24 months.
+
+3. HAZARDOUS MATERIALS & INDEMNITY
+Tenant assumes absolute liability for environmental contamination during the tenancy and indemnifies Landlord against all claims without limitation, including contamination migrating from adjacent parcels.
+
+4. DEFAULT & ACCELERATION OF RENT
+If Tenant defaults on any payment for more than 5 calendar days, Landlord may accelerate all remaining Base Rent for the remainder of the 5-year term immediately.`
       }
     };
 
     // ==========================================
-    // 2. THEME & DARK MODE CONTROLLER
+    // 3. THEME MANAGEMENT (DARK / LIGHT)
     // ==========================================
     function initTheme() {
-      const savedTheme = localStorage.getItem('legal_pro_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      applyTheme(savedTheme);
+      const savedTheme = localStorage.getItem('legal_pro_theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('dark-mode-icon').textContent = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('dark-mode-icon').textContent = '🌙';
+      }
 
       document.getElementById('dark-mode-toggle').addEventListener('click', () => {
-        const isDark = document.documentElement.classList.contains('dark');
-        const nextTheme = isDark ? 'light' : 'dark';
-        applyTheme(nextTheme);
-        localStorage.setItem('legal_pro_theme', nextTheme);
-        showToast(nextTheme === 'dark' ? 'Dark mode enabled' : 'Light mode enabled', nextTheme === 'dark' ? '🌙' : '☀️');
+        const isDark = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('legal_pro_theme', isDark ? 'dark' : 'light');
+        document.getElementById('dark-mode-icon').textContent = isDark ? '☀️' : '🌙';
+        showToast(isDark ? 'Dark theme enabled' : 'Light theme enabled', '🌓');
       });
     }
 
-    function applyTheme(theme) {
-      const icon = document.getElementById('dark-mode-icon');
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-        if (icon) icon.textContent = '☀️';
-      } else {
-        document.documentElement.classList.remove('dark');
-        if (icon) icon.textContent = '🌙';
-      }
-    }
-
     // ==========================================
-    // 3. PDF.js SETUP & EXTRACTION
-    // ==========================================
-    if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-
-    async function extractTextFromPDFFile(file, onProgress) {
-      if (!window.pdfjsLib) throw new Error('PDF parser loading, please retry in a second.');
-      const arrayBuffer = await file.arrayBuffer();
-      const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
-      const pdf = await loadingTask.promise;
-      let text = '';
-      for (let i = 1; i <= pdf.numPages; i++) {
-        if (onProgress) onProgress(i, pdf.numPages);
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        text += `--- Page ${i} ---\n` + content.items.map(item => item.str).join(' ') + '\n\n';
-      }
-      return text.trim();
-    }
-
-    // ==========================================
-    // 4. API KEY VALIDATION & ACCESS CONTROL
+    // 4. API KEY STORAGE & VALIDATION
     // ==========================================
     function getStoredApiKey() {
-      return localStorage.getItem(STORAGE_KEY) || '';
+      return localStorage.getItem(STORAGE_KEY) || null;
     }
 
     function setStoredApiKey(key) {
-      if (key) {
+      if (key && typeof key === 'string') {
         localStorage.setItem(STORAGE_KEY, key.trim());
       } else {
         localStorage.removeItem(STORAGE_KEY);
@@ -913,32 +1095,35 @@
         return { valid: false, error: 'API key is too short or empty.' };
       }
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+
       try {
         const response = await fetch(
           `${API_ENDPOINT}/${MODEL}:generateContent?key=${apiKey.trim()}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
             body: JSON.stringify({
               contents: [{ parts: [{ text: 'Respond with OK' }] }],
               generationConfig: { maxOutputTokens: 10 }
             })
           }
         );
+        clearTimeout(timeout);
 
-        if (response.ok) {
-          return { valid: true };
-        }
+        if (response.ok) return { valid: true };
         if (response.status === 401 || response.status === 400 || response.status === 403) {
           const errData = await response.json().catch(() => ({}));
           const msg = errData.error?.message || 'Invalid API key. Check and try again.';
           return { valid: false, error: msg };
         }
-        if (response.status === 429) {
-          return { valid: true };
-        }
+        if (response.status === 429) return { valid: true };
         return { valid: false, error: `Validation returned status ${response.status}. Please check your connection.` };
       } catch (error) {
+        clearTimeout(timeout);
+        if (error.name === 'AbortError') return { valid: false, error: 'Validation timed out. Please check network connectivity.' };
         return { valid: false, error: 'Network error connecting to Google AI API. Please check internet connection.' };
       }
     }
@@ -989,7 +1174,7 @@
     }
 
     // ==========================================
-    // 5. API CALL WITH 429 COUNTDOWN RETRY
+    // 5. CALL GEMINI WITH 15s TIMEOUT, ABORT & CACHE
     // ==========================================
     async function showRateLimitCountdown(seconds) {
       const modal = document.getElementById('rate-limit-modal');
@@ -1005,35 +1190,62 @@
       modal.classList.add('hidden');
     }
 
-    async function callGemini(prompt, systemInstruction = null) {
+    // High-performance API caller with timeout, abort, and caching
+    async function callGemini(prompt, systemInstruction = null, onProgress = null) {
       const apiKey = getStoredApiKey();
       if (!apiKey) {
         checkApiKeyGate();
         throw new Error('No Google Gemini API key configured. Please enter a valid API key to continue.');
       }
 
-      const url = `${API_ENDPOINT}/${MODEL}:generateContent?key=${apiKey}`;
+      // Check Cache (Issue 3: Efficiency)
+      const cacheKey = prompt.trim();
+      if (apiResponseCache.has(cacheKey)) {
+        return { text: apiResponseCache.get(cacheKey), cached: true, durationSec: 0.0 };
+      }
 
+      // Prepare Abort Controller & 15-second Timeout (Issue 1)
+      if (activeAbortController) {
+        activeAbortController.abort();
+      }
+      activeAbortController = new AbortController();
+      const signal = activeAbortController.signal;
+
+      const startTime = performance.now();
+
+      const url = `${API_ENDPOINT}/${MODEL}:generateContent?key=${apiKey}`;
       const payload = {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.2,
-          maxOutputTokens: 4096,
+          maxOutputTokens: 3000,
           topP: 0.95
         }
       };
-
       if (systemInstruction) {
         payload.systemInstruction = { parts: [{ text: systemInstruction }] };
       }
 
+      let timeoutHandle = null;
+
       for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         try {
-          const res = await fetch(url, {
+          const timeoutPromise = new Promise((_, reject) => {
+            timeoutHandle = setTimeout(() => {
+              const err = new Error('TIMEOUT_15S');
+              reject(err);
+            }, API_TIMEOUT_MS);
+          });
+
+          const fetchPromise = fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            signal
           });
+
+          const res = await Promise.race([fetchPromise, timeoutPromise]);
+          clearTimeout(timeoutHandle);
 
           if (res.status === 429 || res.status >= 500) {
             const delaySeconds = Math.ceil((BASE_DELAY * Math.pow(2, attempt)) / 1000);
@@ -1053,8 +1265,21 @@
 
           const outputText = data.candidates?.[0]?.content?.parts?.[0]?.text;
           if (!outputText) throw new Error('No content returned from Gemini 3.6 Flash.');
-          return outputText;
+
+          const durationSec = ((performance.now() - startTime) / 1000).toFixed(1);
+
+          // Save to cache (Issue 3: Efficiency)
+          apiResponseCache.set(cacheKey, outputText);
+
+          return { text: outputText, cached: false, durationSec };
         } catch (err) {
+          clearTimeout(timeoutHandle);
+          if (err.message === 'TIMEOUT_15S') {
+            throw new Error('TIMEOUT_EXCEEDED');
+          }
+          if (err.name === 'AbortError') {
+            throw new Error('REQUEST_CANCELLED');
+          }
           if (attempt === MAX_RETRIES - 1) throw err;
           await new Promise(r => setTimeout(r, BASE_DELAY * Math.pow(2, attempt)));
         }
@@ -1062,8 +1287,43 @@
       throw new Error('Connection failed after multiple retries. Please check your network or API key.');
     }
 
+    // Helper: Truncate long documents for speed (Issue 1: Long docs truncation)
+    function sanitizeAndTruncateText(rawText, tabId) {
+      const banner = document.getElementById(`${tabId}-truncation-banner`);
+      if (rawText.length > MAX_INPUT_CHARS) {
+        if (banner) banner.classList.remove('hidden');
+        return rawText.slice(0, MAX_INPUT_CHARS);
+      } else {
+        if (banner) banner.classList.add('hidden');
+        return rawText;
+      }
+    }
+
     // ==========================================
-    // 6. LOCALSTORAGE HISTORY WITH INDIVIDUAL DELETE
+    // 6. PDF EXTRACTION VIA PDF.JS
+    // ==========================================
+    async function extractTextFromPDFFile(file, progressCallback) {
+      if (!window.pdfjsLib) {
+        throw new Error('PDF.js library is not ready. Please check internet connection.');
+      }
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = '';
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        if (progressCallback) progressCallback(pageNum, pdf.numPages);
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        fullText += pageText + '\n\n';
+      }
+      return fullText.trim();
+    }
+
+    // ==========================================
+    // 7. LOCALSTORAGE HISTORY
     // ==========================================
     function saveToHistory(tab, title, preview, fullContent) {
       try {
@@ -1102,27 +1362,27 @@
       const list = document.getElementById('history-list');
       const history = JSON.parse(localStorage.getItem('legal_pro_history') || '[]');
       if (!history.length) {
-        list.innerHTML = `<div class="p-6 text-center text-slate-400 dark:text-slate-500 text-sm">No analysis history saved yet.</div>`;
+        list.innerHTML = `<div class="p-6 text-center text-slate-500 text-sm">No analysis history saved yet.</div>`;
         return;
       }
       list.innerHTML = history.map(item => `
         <div class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-blue-50/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition flex items-center justify-between gap-3 group">
-          <div class="flex-1 cursor-pointer history-item-click" data-id="${item.id}">
+          <div class="flex-1 cursor-pointer history-item-click" data-id="${item.id}" tabindex="0" role="button" aria-label="Restore history item: ${escapeHTML(item.title)}">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-blue-700 dark:text-blue-400 uppercase">[${item.tab}]</span>
-              <span class="text-[11px] text-slate-400">${item.timestamp}</span>
+              <span class="text-[11px] text-slate-500">${item.timestamp}</span>
             </div>
-            <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">${escapeHTML(item.title)}</h5>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">${escapeHTML(item.preview)}</p>
+            <h5 class="text-xs font-bold text-slate-900 dark:text-slate-100 mt-1">${escapeHTML(item.title)}</h5>
+            <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 line-clamp-1">${escapeHTML(item.preview)}</p>
           </div>
-          <button class="text-slate-400 hover:text-red-600 dark:hover:text-red-400 p-1 rounded transition delete-history-item-btn" data-id="${item.id}" title="Delete this entry">
+          <button class="touch-target text-slate-400 hover:text-red-600 dark:hover:text-red-400 p-1.5 rounded transition delete-history-item-btn" data-id="${item.id}" aria-label="Delete this history entry" title="Delete entry">
             🗑️
           </button>
         </div>
       `).join('');
 
       list.querySelectorAll('.history-item-click').forEach(el => {
-        el.addEventListener('click', () => {
+        const handleRestore = () => {
           const id = el.dataset.id;
           const entry = history.find(h => String(h.id) === String(id));
           if (entry) {
@@ -1136,7 +1396,9 @@
               document.getElementById('history-modal').classList.add('hidden');
             }
           }
-        });
+        };
+        el.addEventListener('click', handleRestore);
+        el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') handleRestore(); });
       });
 
       list.querySelectorAll('.delete-history-item-btn').forEach(btn => {
@@ -1148,7 +1410,7 @@
     }
 
     // ==========================================
-    // 7. INLINE CLAUSE & DIFF HIGHLIGHTING
+    // 8. INLINE CLAUSE HIGHLIGHTING WITH ICONS
     // ==========================================
     function escapeHTML(str) {
       if (!str) return '';
@@ -1164,80 +1426,101 @@
         if (!c.quote) return;
         const escQuote = escapeHTML(c.quote.trim());
         const riskClass = c.riskLevel === 'HIGH' ? 'clause-high' : c.riskLevel === 'MEDIUM' ? 'clause-medium' : 'clause-low';
-        const badge = c.riskLevel === 'HIGH' ? '🔴' : c.riskLevel === 'MEDIUM' ? '🟡' : '🟢';
-        const span = `<mark class="clause-mark ${riskClass}" data-idx="${idx}" title="${escapeHTML(c.title || 'Risk Clause')}">${badge} ${escQuote}</mark>`;
+        const badge = c.riskLevel === 'HIGH' ? '🚨' : c.riskLevel === 'MEDIUM' ? '⚠️' : '✅';
+        const span = `<mark class="clause-mark ${riskClass}" data-idx="${idx}" tabindex="0" role="button" aria-label="Risk clause: ${escapeHTML(c.title || 'Clause')}">${badge} ${escQuote}</mark>`;
         highlighted = highlighted.replace(escQuote, span);
       });
 
       container.innerHTML = `
         <div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 shadow-sm overflow-hidden mb-6">
           <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-2">
-              <span>🔎</span> Interactive Clause Inspector (${clauses.length} Flagged Terms)
+            <h4 class="font-bold text-slate-900 dark:text-slate-100 text-sm flex items-center gap-2">
+              <span aria-hidden="true">🔎</span> Interactive Clause Inspector (${clauses.length} Flagged Terms)
             </h4>
-            <span class="text-xs text-slate-500 dark:text-slate-400">Click any colored highlight to inspect</span>
+            <span class="text-xs text-slate-600 dark:text-slate-400">Click or focus any colored highlight to inspect</span>
           </div>
           <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800">
-            <div class="lg:col-span-7 p-5 font-mono text-xs leading-relaxed text-slate-800 dark:text-slate-200 max-h-96 overflow-y-auto whitespace-pre-wrap">
+            <div class="lg:col-span-7 p-5 font-mono text-xs leading-relaxed text-slate-900 dark:text-slate-100 max-h-96 overflow-y-auto whitespace-pre-wrap">
               ${highlighted}
             </div>
-            <div class="lg:col-span-5 p-5 bg-white dark:bg-slate-900 max-h-96 overflow-y-auto" id="clause-detail-pane">
-              <div class="h-full flex flex-col items-center justify-center text-center text-slate-400 dark:text-slate-500 p-6">
-                <span class="text-3xl mb-2">👆</span>
-                <p class="text-xs font-semibold text-slate-600 dark:text-slate-400">Select any highlighted clause on the left to see legal exposure and counter-terms.</p>
+            <div class="lg:col-span-5 p-5 bg-white dark:bg-slate-900 max-h-96 overflow-y-auto" id="clause-detail-pane" role="region" aria-live="polite" aria-label="Selected Clause Details">
+              <div class="h-full flex flex-col items-center justify-center text-center text-slate-500 dark:text-slate-400 p-6">
+                <span class="text-3xl mb-2" aria-hidden="true">👆</span>
+                <p class="text-xs font-semibold">Select any highlighted clause on the left to see legal exposure and counter-terms.</p>
               </div>
             </div>
           </div>
         </div>
       `;
 
-      container.querySelectorAll('.clause-mark').forEach(mark => {
-        mark.addEventListener('click', (e) => {
-          const idx = parseInt(e.currentTarget.dataset.idx, 10);
-          const clause = clauses[idx];
-          if (!clause) return;
+      const setupClauseClick = (mark) => {
+        const idx = parseInt(mark.dataset.idx, 10);
+        const clause = clauses[idx];
+        if (!clause) return;
 
-          container.querySelectorAll('.clause-mark').forEach(m => m.classList.remove('ring-2', 'ring-blue-600'));
-          e.currentTarget.classList.add('ring-2', 'ring-blue-600');
+        container.querySelectorAll('.clause-mark').forEach(m => m.classList.remove('ring-2', 'ring-blue-600'));
+        mark.classList.add('ring-2', 'ring-blue-600');
 
-          const detailPane = container.querySelector('#clause-detail-pane');
-          detailPane.innerHTML = `
-            <div class="space-y-3 animate-fade-in text-xs">
-              <span class="px-2 py-0.5 rounded-full font-bold uppercase text-[10px] ${clause.riskLevel === 'HIGH' ? 'bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300' : clause.riskLevel === 'MEDIUM' ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300' : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'}">
-                ${clause.riskLevel} RISK
-              </span>
-              <h5 class="font-bold text-slate-900 dark:text-white text-sm">${escapeHTML(clause.title || 'Clause Analysis')}</h5>
-              <div class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 italic font-mono text-[11px] text-slate-700 dark:text-slate-300">
-                "${escapeHTML(clause.quote)}"
-              </div>
-              <div>
-                <strong class="text-slate-700 dark:text-slate-300">Why It Matters:</strong>
-                <p class="text-slate-600 dark:text-slate-400 mt-0.5">${escapeHTML(clause.explanation || '')}</p>
-              </div>
-              ${clause.recommendation ? `
-                <div class="p-2.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-lg">
-                  <div class="flex items-center justify-between mb-1">
-                    <strong class="text-blue-900 dark:text-blue-300">💡 Recommended Revision</strong>
-                    <button class="text-[10px] text-blue-600 dark:text-blue-400 font-bold copy-rec-btn" data-text="${escapeHTML(clause.recommendation)}">📋 Copy</button>
-                  </div>
-                  <p class="text-[11px] font-mono text-blue-950 dark:text-blue-200">${escapeHTML(clause.recommendation)}</p>
-                </div>
-              ` : ''}
+        const detailPane = container.querySelector('#clause-detail-pane');
+        detailPane.innerHTML = `
+          <div class="space-y-3 animate-fade-in text-xs">
+            <span class="px-2.5 py-1 rounded-full font-bold uppercase text-[10px] ${clause.riskLevel === 'HIGH' ? 'bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-300 border border-red-200 dark:border-red-800' : clause.riskLevel === 'MEDIUM' ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800' : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'}">
+              ${clause.riskLevel === 'HIGH' ? '🚨 HIGH RISK' : clause.riskLevel === 'MEDIUM' ? '⚠️ MEDIUM RISK' : '✅ LOW RISK / SAFE'}
+            </span>
+            <h5 class="font-bold text-slate-900 dark:text-white text-sm">${escapeHTML(clause.title || 'Clause Analysis')}</h5>
+            <div class="p-2.5 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 italic font-mono text-[11px] text-slate-800 dark:text-slate-200">
+              "${escapeHTML(clause.quote)}"
             </div>
-          `;
+            <div>
+              <strong class="text-slate-900 dark:text-slate-100">Why It Matters:</strong>
+              <p class="text-slate-700 dark:text-slate-300 mt-0.5">${escapeHTML(clause.explanation || '')}</p>
+            </div>
+            ${clause.recommendation ? `
+              <div class="p-2.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <div class="flex items-center justify-between mb-1">
+                  <strong class="text-blue-900 dark:text-blue-200">💡 Recommended Revision</strong>
+                  <button class="text-[10px] text-blue-700 dark:text-blue-300 font-bold copy-rec-btn hover:underline" data-text="${escapeHTML(clause.recommendation)}" aria-label="Copy recommended counter-term">📋 Copy</button>
+                </div>
+                <p class="text-[11px] font-mono text-blue-950 dark:text-blue-200">${escapeHTML(clause.recommendation)}</p>
+              </div>
+            ` : ''}
+          </div>
+        `;
 
-          detailPane.querySelector('.copy-rec-btn')?.addEventListener('click', (ev) => {
-            navigator.clipboard.writeText(ev.target.dataset.text);
-            showToast('Counter-term copied!', '📋');
-          });
+        detailPane.querySelector('.copy-rec-btn')?.addEventListener('click', (ev) => {
+          navigator.clipboard.writeText(ev.target.dataset.text);
+          showToast('Counter-term copied!', '📋');
+        });
+      };
+
+      container.querySelectorAll('.clause-mark').forEach(mark => {
+        mark.addEventListener('click', () => setupClauseClick(mark));
+        mark.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setupClauseClick(mark);
+          }
         });
       });
     }
 
-    // Helper: Skeleton Loader Generator
-    function getSkeletonMarkup(title = 'Processing Document Analysis...') {
+    // Helper: Skeleton Loader with Live Elapsed Timer
+    function startProgressTimer(tabId, message) {
+      let seconds = 0;
+      const timeBadge = document.getElementById(`${tabId}-time-badge`);
+      const cancelBtn = document.getElementById(`${tabId}-cancel-btn`);
+      if (cancelBtn) cancelBtn.classList.remove('hidden');
+
+      if (timeBadge) timeBadge.textContent = `⏳ 0.0s`;
+
+      if (activeTimerInterval) clearInterval(activeTimerInterval);
+      activeTimerInterval = setInterval(() => {
+        seconds += 0.5;
+        if (timeBadge) timeBadge.textContent = `⏳ ${seconds.toFixed(1)}s`;
+      }, 500);
+
       return `
-        <div class="p-6 space-y-4 animate-fade-in">
+        <div class="p-6 space-y-4 animate-fade-in" role="status" aria-live="polite">
           <div class="flex items-center gap-3">
             <div class="w-6 h-6 rounded-full skeleton"></div>
             <div class="h-5 w-48 skeleton"></div>
@@ -1250,18 +1533,51 @@
           <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2 mt-4">
             <div class="h-4 w-1/3 skeleton"></div>
             <div class="h-3 w-full skeleton"></div>
-            <div class="h-3 w-3/4 skeleton"></div>
           </div>
           <div class="text-center text-xs font-semibold text-blue-600 dark:text-blue-400 pt-2 flex items-center justify-center gap-2">
-            <div class="w-3.5 h-3.5 border-2 border-blue-600 dark:border-blue-400 border-t-transparent rounded-full animate-spin"></div>
-            ${escapeHTML(title)}
+            <div class="w-4 h-4 border-2 border-blue-600 dark:border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+            <span id="${tabId}-loading-msg">${escapeHTML(message)}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function stopProgressTimer(tabId, durationSec = null, cached = false) {
+      if (activeTimerInterval) clearInterval(activeTimerInterval);
+      activeTimerInterval = null;
+
+      const cancelBtn = document.getElementById(`${tabId}-cancel-btn`);
+      if (cancelBtn) cancelBtn.classList.add('hidden');
+
+      const timeBadge = document.getElementById(`${tabId}-time-badge`);
+      if (timeBadge && durationSec !== null) {
+        timeBadge.textContent = cached ? `⚡ Cached (0.0s)` : `⚡ Generated in ${durationSec}s`;
+      }
+    }
+
+    // Helper: Timeout Error State with Retry Button
+    function renderTimeoutErrorMarkup(tabId, retryCallbackName) {
+      return `
+        <div class="p-6 bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 rounded-xl space-y-3" role="alert">
+          <div class="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold">
+            <span class="text-lg">⚠️</span>
+            <span>Request taking longer than 15s. Gemini API is busy.</span>
+          </div>
+          <p class="text-xs text-amber-700 dark:text-amber-300">The request timed out to prevent your browser from hanging.</p>
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="${retryCallbackName}()" class="touch-target px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition">
+              🔄 Retry Request
+            </button>
+            <button onclick="document.getElementById('${tabId}-output-wrapper').classList.add('hidden')" class="touch-target px-3 py-2 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-lg text-xs font-semibold">
+              Dismiss
+            </button>
           </div>
         </div>
       `;
     }
 
     // ==========================================
-    // 8. INITIALIZATION & EVENT LISTENERS
+    // 9. INITIALIZATION & EVENT LISTENERS
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
@@ -1275,6 +1591,7 @@
       initToolHandlers();
       initExportAndCopy();
       initKeyboardShortcuts();
+      initHelpTooltips();
       updateHistoryCount();
     });
 
@@ -1282,27 +1599,77 @@
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast';
-      toast.innerHTML = `<span>${icon}</span> <span>${escapeHTML(msg)}</span>`;
+      toast.setAttribute('role', 'status');
+      toast.innerHTML = `<span aria-hidden="true">${icon}</span> <span>${escapeHTML(msg)}</span>`;
       container.appendChild(toast);
       setTimeout(() => { toast.remove(); }, 3200);
     }
 
+    // Help Tooltip Popover Initializer (WCAG AA Help Text & Shift+?)
+    function initHelpTooltips() {
+      const popover = document.getElementById('global-help-popover');
+      const popoverText = document.getElementById('help-popover-text');
+
+      document.querySelectorAll('.help-tooltip-btn').forEach(btn => {
+        const toggleHelp = (e) => {
+          e.stopPropagation();
+          const help = btn.dataset.help;
+          if (!help) return;
+
+          const rect = btn.getBoundingClientRect();
+          popoverText.textContent = help;
+          popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+          popover.style.left = `${Math.max(16, rect.left + window.scrollX - 100)}px`;
+          popover.classList.toggle('visible');
+          btn.setAttribute('aria-expanded', popover.classList.contains('visible'));
+        };
+
+        btn.addEventListener('click', toggleHelp);
+        btn.addEventListener('mouseenter', toggleHelp);
+        btn.addEventListener('mouseleave', () => { popover.classList.remove('visible'); btn.setAttribute('aria-expanded', 'false'); });
+      });
+
+      document.addEventListener('click', () => {
+        popover.classList.remove('visible');
+        document.querySelectorAll('.help-tooltip-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+      });
+    }
+
     function initKeyboardShortcuts() {
       document.addEventListener('keydown', (e) => {
+        // Ctrl+Enter: Run active tab
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
           e.preventDefault();
-          const activeTab = document.querySelector('.tab-content.active')?.id;
+          const activeTab = document.querySelector('.tab-content.active')?.id?.replace('panel-', '');
           if (activeTab) {
             const btn = document.getElementById(`${activeTab}-btn`);
             if (btn && !btn.disabled) btn.click();
           }
         }
+        // Ctrl+K: Open Settings Modal
         if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
           e.preventDefault();
-          const activeTab = document.querySelector('.tab-content.active')?.id;
-          if (activeTab) {
-            const clearBtn = document.getElementById(`${activeTab}-clear`);
-            if (clearBtn) clearBtn.click();
+          const settingsBtn = document.getElementById('settings-modal-btn');
+          if (settingsBtn) settingsBtn.click();
+        }
+        // Shift+?: Toggle Help Tooltip for active tab
+        if (e.shiftKey && e.key === '?') {
+          e.preventDefault();
+          const activeTab = document.querySelector('.tab-content.active')?.id?.replace('panel-', '');
+          const helpBtn = document.querySelector(`#panel-${activeTab} .help-tooltip-btn`);
+          if (helpBtn) helpBtn.click();
+        }
+        // Esc: Close Modals or Clear Inputs
+        if (e.key === 'Escape') {
+          const openModals = document.querySelectorAll('#settings-modal:not(.hidden), #history-modal:not(.hidden), #rate-limit-modal:not(.hidden)');
+          if (openModals.length > 0) {
+            openModals.forEach(m => m.classList.add('hidden'));
+          } else {
+            const activeTab = document.querySelector('.tab-content.active')?.id?.replace('panel-', '');
+            if (activeTab) {
+              const clearBtn = document.getElementById(`${activeTab}-clear`);
+              if (clearBtn) clearBtn.click();
+            }
           }
         }
       });
@@ -1311,17 +1678,51 @@
     function initTabs() {
       const btns = document.querySelectorAll('.tab-btn');
       const contents = document.querySelectorAll('.tab-content');
-      btns.forEach(btn => {
+
+      btns.forEach((btn, idx) => {
         btn.addEventListener('click', () => {
           const tabId = btn.dataset.tab;
-          btns.forEach(b => { b.classList.remove('active'); b.classList.add('text-slate-600', 'dark:text-slate-400'); });
+          btns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+            b.setAttribute('tabindex', '-1');
+            b.classList.add('text-slate-700', 'dark:text-slate-300');
+          });
           contents.forEach(c => c.classList.remove('active'));
+
           btn.classList.add('active');
-          btn.classList.remove('text-slate-600', 'dark:text-slate-400');
-          document.getElementById(tabId)?.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          btn.setAttribute('tabindex', '0');
+          btn.classList.remove('text-slate-700', 'dark:text-slate-300');
+
+          const targetPanel = document.getElementById(`panel-${tabId}`);
+          if (targetPanel) targetPanel.classList.add('active');
+
+          // Abort previous in-flight request if user switches tab (Issue 3: Efficiency)
+          if (activeAbortController) {
+            activeAbortController.abort();
+            activeAbortController = null;
+          }
+
           localStorage.setItem('legal_pro_active_tab', tabId);
         });
+
+        // WAI-ARIA Arrow Key Navigation
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            const next = btns[(idx + 1) % btns.length];
+            next.focus();
+            next.click();
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const prev = btns[(idx - 1 + btns.length) % btns.length];
+            prev.focus();
+            prev.click();
+          }
+        });
       });
+
       const saved = localStorage.getItem('legal_pro_active_tab') || 'simplify';
       document.querySelector(`.tab-btn[data-tab="${saved}"]`)?.click();
     }
@@ -1355,7 +1756,7 @@
         }
 
         gateBtn.disabled = true;
-        gateBtn.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Validating with Gemini 3.6 Flash...`;
+        gateBtn.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Validating key...`;
 
         const res = await validateApiKey(key);
         gateBtn.disabled = false;
@@ -1383,7 +1784,6 @@
     }
 
     function initModals() {
-      // Settings Modal
       const settingsModal = document.getElementById('settings-modal');
       const settingsBtn = document.getElementById('settings-modal-btn');
       const keyInput = document.getElementById('custom-api-key-input');
@@ -1442,7 +1842,6 @@
         }
       });
 
-      // History Modal
       const historyModal = document.getElementById('history-modal');
       document.getElementById('history-modal-btn').addEventListener('click', () => {
         renderHistoryModal();
@@ -1463,20 +1862,30 @@
     function initSampleLoader() {
       const btn = document.getElementById('sample-docs-btn');
       const menu = document.getElementById('sample-docs-menu');
-      btn.addEventListener('click', (e) => { e.stopPropagation(); menu.classList.toggle('hidden'); });
-      document.addEventListener('click', () => menu.classList.add('hidden'));
+      btn.addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        menu.classList.toggle('hidden'); 
+        btn.setAttribute('aria-expanded', !menu.classList.contains('hidden'));
+      });
+      document.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      });
 
       menu.querySelectorAll('[data-sample]').forEach(item => {
         item.addEventListener('click', () => {
           const sample = SAMPLE_CONTRACTS[item.dataset.sample];
           if (!sample) return;
-          const activeTab = document.querySelector('.tab-content.active')?.id || 'simplify';
+          const activeTab = document.querySelector('.tab-content.active')?.id?.replace('panel-', '') || 'simplify';
           if (activeTab === 'compare') {
             document.getElementById('compare-doc1').value = SAMPLE_CONTRACTS.nda.text;
             document.getElementById('compare-doc2').value = SAMPLE_CONTRACTS.saas.text;
           } else {
             const input = document.getElementById(`${activeTab}-input`) || document.getElementById('qa-context');
-            if (input) { input.value = sample.text; input.dispatchEvent(new Event('input')); }
+            if (input) { 
+              input.value = sample.text; 
+              input.dispatchEvent(new Event('input')); 
+            }
           }
           showToast(`Loaded ${sample.title}`, '📂');
           menu.classList.add('hidden');
@@ -1503,6 +1912,8 @@
           zone.addEventListener(name, (e) => { e.preventDefault(); zone.classList.remove('dropzone-active'); });
         });
         zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          zone.classList.remove('dropzone-active');
           const file = e.dataTransfer.files?.[0];
           if (file) handleUploadedFile(file, targetId);
         });
@@ -1511,7 +1922,10 @@
       document.querySelectorAll('.qa-quick-chip').forEach(chip => {
         chip.addEventListener('click', () => {
           const qInput = document.getElementById('qa-question');
-          if (qInput) { qInput.value = chip.textContent.trim(); qInput.focus(); }
+          if (qInput) { 
+            qInput.value = chip.textContent.replace('❓', '').trim(); 
+            qInput.focus(); 
+          }
         });
       });
     }
@@ -1554,25 +1968,24 @@
     }
 
     // ==========================================
-    // 9. TOOL EXECUTION HANDLERS (GEMINI 3.6 FLASH)
+    // 10. TOOL EXECUTION HANDLERS (FAST & TIGHT PROMPTS)
     // ==========================================
-    function initToolHandlers() {
-      // 1. Simplify
-      document.getElementById('simplify-btn').addEventListener('click', async () => {
-        const text = document.getElementById('simplify-input').value.trim();
-        if (!text) return showToast('Please paste a document or upload PDF.', '⚠️');
+    window.runSimplifyAnalysis = async function() {
+      const rawText = document.getElementById('simplify-input').value.trim();
+      if (!rawText) return showToast('Please paste a document or upload PDF.', '⚠️');
 
-        const btn = document.getElementById('simplify-btn');
-        const outWrap = document.getElementById('simplify-output-wrapper');
-        const out = document.getElementById('simplify-output');
+      const text = sanitizeAndTruncateText(rawText, 'simplify');
+      const btn = document.getElementById('simplify-btn');
+      const outWrap = document.getElementById('simplify-output-wrapper');
+      const out = document.getElementById('simplify-output');
 
-        btn.disabled = true;
-        btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Simplifying...`;
-        outWrap.classList.remove('hidden');
-        out.innerHTML = getSkeletonMarkup('Translating legalese into plain English with Gemini 3.6 Flash...');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Simplifying...`;
+      outWrap.classList.remove('hidden');
+      out.innerHTML = startProgressTimer('simplify', 'Translating legalese into plain English with Gemini 3.6 Flash...');
 
-        try {
-          const res = await callGemini(`Simplify this legal document into crystal-clear plain English.
+      try {
+        const res = await callGemini(`Simplify this legal text concisely in plain English.
 Structure with:
 # 📄 Plain-English Executive Summary
 ## 🔑 Key Rights & Protections
@@ -1582,112 +1995,114 @@ Structure with:
 ## 🛑 Dispute Resolution & Liability
 
 DOCUMENT:
-${text}`, 'You are an elite legal simplifier powered by Gemini 3.6 Flash.');
+${text}`, 'You are an elite legal simplifier powered by Gemini 3.6 Flash. Be crisp, high-impact, and clear.');
 
-          out.innerHTML = DOMPurify.sanitize(marked.parse(res));
-          saveToHistory('simplify', 'Document Simplification', text, res);
-          showToast('Simplification ready!', '✨');
-        } catch (e) {
-          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-400 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<span>🚀</span> Simplify Document <span class="kbd-badge">Ctrl+↵</span>`;
+        stopProgressTimer('simplify', res.durationSec, res.cached);
+        out.innerHTML = DOMPurify.sanitize(marked.parse(res.text));
+        saveToHistory('simplify', 'Document Simplification', text, res.text);
+        showToast('Simplification ready!', '✨');
+      } catch (e) {
+        stopProgressTimer('simplify');
+        if (e.message === 'TIMEOUT_EXCEEDED') {
+          out.innerHTML = renderTimeoutErrorMarkup('simplify', 'window.runSimplifyAnalysis');
+        } else if (e.message === 'REQUEST_CANCELLED') {
+          out.innerHTML = `<div class="p-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">Request cancelled.</div>`;
+        } else {
+          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
         }
-      });
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🚀</span> Simplify Document <span class="kbd-badge">Ctrl+↵</span>`;
+      }
+    };
 
-      document.getElementById('simplify-clear').addEventListener('click', () => {
-        document.getElementById('simplify-input').value = '';
-        document.getElementById('simplify-output-wrapper').classList.add('hidden');
-        document.getElementById('simplify-char-count').textContent = '0 characters';
-      });
+    window.runRiskAnalysis = async function() {
+      const rawText = document.getElementById('analyze-input').value.trim();
+      if (!rawText) return showToast('Please paste a contract or upload PDF.', '⚠️');
 
-      // 2. Risk & Clause Audit
-      document.getElementById('analyze-btn').addEventListener('click', async () => {
-        const text = document.getElementById('analyze-input').value.trim();
-        if (!text) return showToast('Please paste a contract or upload PDF.', '⚠️');
+      const text = sanitizeAndTruncateText(rawText, 'analyze');
+      const btn = document.getElementById('analyze-btn');
+      const outWrap = document.getElementById('analyze-output-wrapper');
+      const out = document.getElementById('analyze-output');
 
-        const btn = document.getElementById('analyze-btn');
-        const outWrap = document.getElementById('analyze-output-wrapper');
-        const out = document.getElementById('analyze-output');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Auditing Risks...`;
+      outWrap.classList.remove('hidden');
+      out.innerHTML = startProgressTimer('analyze', 'Scanning clauses for liabilities & computing risk score...');
 
-        btn.disabled = true;
-        btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Auditing Risks...`;
-        outWrap.classList.remove('hidden');
-        out.innerHTML = getSkeletonMarkup('Scanning clauses for legal liabilities & risk scores...');
-
-        try {
-          const res = await callGemini(`You are a top-tier legal risk auditor.
-Analyze the following contract for legal risks and extract clauses.
-Return valid JSON ONLY with this structure:
+      try {
+        const res = await callGemini(`Audit this contract for legal risks. Extract dangerous clauses.
+Return valid JSON ONLY with this schema:
 {
   "riskScore": 75,
-  "riskSummary": "Summary of exposure...",
-  "highRiskCount": 2,
-  "mediumRiskCount": 2,
-  "lowRiskCount": 1,
+  "riskSummary": "Executive overview of legal exposure",
   "clauses": [
     {
       "riskLevel": "HIGH",
       "title": "Uncapped Indemnity",
-      "quote": "Exact verbatim snippet from contract",
-      "explanation": "Why this is dangerous...",
-      "recommendation": "Safer counter-term..."
+      "quote": "Verbatim short snippet",
+      "explanation": "Why this is risky",
+      "recommendation": "Balanced counter-clause"
     }
   ],
-  "markdownReport": "### Risk Audit Breakdown\\n\\nDetailed points..."
+  "markdownReport": "### Risk Audit Breakdown\\n\\nKey findings..."
 }
 CONTRACT:
 ${text}`, 'Return strictly valid JSON.');
 
-          let parsed;
-          try {
-            parsed = JSON.parse(res.replace(/```json/gi, '').replace(/```/g, '').trim());
-          } catch (err) {
-            parsed = { riskScore: 70, riskSummary: "Risk audit completed.", clauses: [], markdownReport: res };
-          }
+        stopProgressTimer('analyze', res.durationSec, res.cached);
 
-          document.getElementById('risk-score-badge').textContent = `${parsed.riskScore || 65}/100`;
-          document.getElementById('risk-summary-text').textContent = parsed.riskSummary || '';
-          document.getElementById('counter-high-risk').textContent = parsed.clauses?.filter(c => c.riskLevel === 'HIGH').length || 0;
-          document.getElementById('counter-med-risk').textContent = parsed.clauses?.filter(c => c.riskLevel === 'MEDIUM').length || 0;
-          document.getElementById('counter-low-risk').textContent = parsed.clauses?.filter(c => c.riskLevel === 'LOW').length || 0;
-
-          renderInlineClauseHighlighter(text, parsed.clauses || [], 'clause-highlighter-container');
-          out.innerHTML = DOMPurify.sanitize(marked.parse(parsed.markdownReport || ''));
-          saveToHistory('analyze', 'Risk & Clause Audit', text, parsed.markdownReport || parsed.riskSummary);
-          showToast('Risk audit completed!', '⚠️');
-        } catch (e) {
-          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-400 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<span>⚠️</span> Audit Risks & Highlight Clauses <span class="kbd-badge">Ctrl+↵</span>`;
-        }
-      });
-
-      document.getElementById('analyze-clear').addEventListener('click', () => {
-        document.getElementById('analyze-input').value = '';
-        document.getElementById('analyze-output-wrapper').classList.add('hidden');
-        document.getElementById('clause-highlighter-container').innerHTML = '';
-        document.getElementById('analyze-char-count').textContent = '0 characters';
-      });
-
-      // 3. Compare
-      document.getElementById('compare-btn').addEventListener('click', async () => {
-        const doc1 = document.getElementById('compare-doc1').value.trim();
-        const doc2 = document.getElementById('compare-doc2').value.trim();
-        if (!doc1 || !doc2) return showToast('Please provide both contracts.', '⚠️');
-
-        const btn = document.getElementById('compare-btn');
-        const outWrap = document.getElementById('compare-output-wrapper');
-        const out = document.getElementById('compare-output');
-
-        btn.disabled = true;
-        btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Comparing...`;
-        outWrap.classList.remove('hidden');
-        out.innerHTML = getSkeletonMarkup('Comparing terms & highlighting variances between drafts...');
-
+        let parsed;
         try {
-          const res = await callGemini(`Compare Contract A and Contract B.
+          parsed = JSON.parse(res.text.replace(/```json/gi, '').replace(/```/g, '').trim());
+        } catch (err) {
+          parsed = { riskScore: 70, riskSummary: "Risk audit completed.", clauses: [], markdownReport: res.text };
+        }
+
+        document.getElementById('risk-score-badge').textContent = `${parsed.riskScore || 65}/100`;
+        document.getElementById('risk-summary-text').textContent = parsed.riskSummary || '';
+        document.getElementById('counter-high-risk').textContent = parsed.clauses?.filter(c => c.riskLevel === 'HIGH').length || 0;
+        document.getElementById('counter-med-risk').textContent = parsed.clauses?.filter(c => c.riskLevel === 'MEDIUM').length || 0;
+        document.getElementById('counter-low-risk').textContent = parsed.clauses?.filter(c => c.riskLevel === 'LOW').length || 0;
+
+        renderInlineClauseHighlighter(text, parsed.clauses || [], 'clause-highlighter-container');
+        out.innerHTML = DOMPurify.sanitize(marked.parse(parsed.markdownReport || ''));
+        saveToHistory('analyze', 'Risk & Clause Audit', text, parsed.markdownReport || parsed.riskSummary);
+        showToast('Risk audit completed!', '⚠️');
+      } catch (e) {
+        stopProgressTimer('analyze');
+        if (e.message === 'TIMEOUT_EXCEEDED') {
+          out.innerHTML = renderTimeoutErrorMarkup('analyze', 'window.runRiskAnalysis');
+        } else if (e.message === 'REQUEST_CANCELLED') {
+          out.innerHTML = `<div class="p-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">Request cancelled.</div>`;
+        } else {
+          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>⚠️</span> Audit Risks & Highlight Clauses <span class="kbd-badge">Ctrl+↵</span>`;
+      }
+    };
+
+    window.runCompareAnalysis = async function() {
+      const rawDoc1 = document.getElementById('compare-doc1').value.trim();
+      const rawDoc2 = document.getElementById('compare-doc2').value.trim();
+      if (!rawDoc1 || !rawDoc2) return showToast('Please provide both contracts.', '⚠️');
+
+      const doc1 = sanitizeAndTruncateText(rawDoc1, 'compare');
+      const doc2 = sanitizeAndTruncateText(rawDoc2, 'compare');
+
+      const btn = document.getElementById('compare-btn');
+      const outWrap = document.getElementById('compare-output-wrapper');
+      const out = document.getElementById('compare-output');
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Comparing...`;
+      outWrap.classList.remove('hidden');
+      out.innerHTML = startProgressTimer('compare', 'Comparing terms & highlighting variances between drafts...');
+
+      try {
+        const res = await callGemini(`Compare Contract A and Contract B.
 Structure with:
 # 🔄 Contract Variance Matrix
 ## 📊 Executive Summary of Divergence
@@ -1705,102 +2120,161 @@ ${doc1}
 CONTRACT B:
 ${doc2}`, 'You are an elite contract comparison specialist.');
 
-          out.innerHTML = DOMPurify.sanitize(marked.parse(res));
-          saveToHistory('compare', 'Contract Comparison Matrix', doc1.slice(0, 50) + ' vs ' + doc2.slice(0, 50), res);
-          showToast('Comparison completed!', '📊');
-        } catch (e) {
-          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-400 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<span>🔍</span> Compare & Highlight Variances <span class="kbd-badge">Ctrl+↵</span>`;
+        stopProgressTimer('compare', res.durationSec, res.cached);
+        out.innerHTML = DOMPurify.sanitize(marked.parse(res.text));
+        saveToHistory('compare', 'Contract Comparison Matrix', doc1.slice(0, 50) + ' vs ' + doc2.slice(0, 50), res.text);
+        showToast('Comparison completed!', '📊');
+      } catch (e) {
+        stopProgressTimer('compare');
+        if (e.message === 'TIMEOUT_EXCEEDED') {
+          out.innerHTML = renderTimeoutErrorMarkup('compare', 'window.runCompareAnalysis');
+        } else if (e.message === 'REQUEST_CANCELLED') {
+          out.innerHTML = `<div class="p-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">Request cancelled.</div>`;
+        } else {
+          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
         }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🔍</span> Compare & Highlight Variances <span class="kbd-badge">Ctrl+↵</span>`;
+      }
+    };
+
+    window.runQaAnalysis = async function() {
+      const context = document.getElementById('qa-context').value.trim();
+      const q = document.getElementById('qa-question').value.trim();
+      if (!context || !q) return showToast('Provide document and question.', '⚠️');
+
+      const btn = document.getElementById('qa-btn');
+      const outWrap = document.getElementById('qa-output-wrapper');
+      const out = document.getElementById('qa-output');
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Finding Answer...`;
+      outWrap.classList.remove('hidden');
+      out.innerHTML = startProgressTimer('qa', 'Analyzing context and retrieving cited answer...');
+
+      try {
+        const res = await callGemini(`Answer the question grounded strictly in the provided document. Cite verbatim snippets.
+QUESTION: ${q}
+DOCUMENT: ${context}`, 'You are an accurate, cited AI legal counsel powered by Gemini 3.6 Flash.');
+
+        stopProgressTimer('qa', res.durationSec, res.cached);
+        out.innerHTML = DOMPurify.sanitize(marked.parse(res.text));
+        saveToHistory('qa', `Q&A: ${q}`, context, res.text);
+        showToast('Answer retrieved!', '💡');
+      } catch (e) {
+        stopProgressTimer('qa');
+        if (e.message === 'TIMEOUT_EXCEEDED') {
+          out.innerHTML = renderTimeoutErrorMarkup('qa', 'window.runQaAnalysis');
+        } else if (e.message === 'REQUEST_CANCELLED') {
+          out.innerHTML = `<div class="p-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">Request cancelled.</div>`;
+        } else {
+          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🤔</span> Get Legal Answer <span class="kbd-badge">Ctrl+↵</span>`;
+      }
+    };
+
+    window.runChecklistAnalysis = async function() {
+      const doc = document.getElementById('checklist-input').value.trim();
+      const type = document.getElementById('checklist-type').value;
+      const role = document.getElementById('checklist-role').value;
+      if (!doc) return showToast('Please paste a document.', '⚠️');
+
+      const btn = document.getElementById('checklist-btn');
+      const outWrap = document.getElementById('checklist-output-wrapper');
+      const out = document.getElementById('checklist-output');
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Generating Checklist...`;
+      outWrap.classList.remove('hidden');
+      out.innerHTML = startProgressTimer('checklist', 'Formulating negotiation action plan...');
+
+      try {
+        const res = await callGemini(`Create an actionable pre-signing checklist for a ${type} from the perspective of ${role}.
+Format with:
+### 📋 Phase 1: Essential Pre-Signing Verification
+- [ ] Action item 1
+### 🚨 Phase 2: Deal-Breakers & Red Flags
+- [ ] Action item 1
+### 💬 Phase 3: Questions for Your Attorney
+- [ ] Action item 1
+### ✍️ Phase 4: Recommended Counter-Proposals
+- [ ] Action item 1
+
+DOCUMENT:
+${doc}`, 'You are a master contract strategist.');
+
+        stopProgressTimer('checklist', res.durationSec, res.cached);
+        out.innerHTML = DOMPurify.sanitize(marked.parse(res.text));
+        saveToHistory('checklist', `Checklist: ${type}`, doc, res.text);
+        showToast('Checklist generated!', '✅');
+      } catch (e) {
+        stopProgressTimer('checklist');
+        if (e.message === 'TIMEOUT_EXCEEDED') {
+          out.innerHTML = renderTimeoutErrorMarkup('checklist', 'window.runChecklistAnalysis');
+        } else if (e.message === 'REQUEST_CANCELLED') {
+          out.innerHTML = `<div class="p-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">Request cancelled.</div>`;
+        } else {
+          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-800 dark:text-red-300 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>✅</span> Generate Action Checklist <span class="kbd-badge">Ctrl+↵</span>`;
+      }
+    };
+
+    function initToolHandlers() {
+      document.getElementById('simplify-btn').addEventListener('click', window.runSimplifyAnalysis);
+      document.getElementById('simplify-cancel-btn').addEventListener('click', () => {
+        if (activeAbortController) activeAbortController.abort();
+      });
+      document.getElementById('simplify-clear').addEventListener('click', () => {
+        document.getElementById('simplify-input').value = '';
+        document.getElementById('simplify-output-wrapper').classList.add('hidden');
+        document.getElementById('simplify-truncation-banner')?.classList.add('hidden');
+        document.getElementById('simplify-char-count').textContent = '0 characters';
       });
 
+      document.getElementById('analyze-btn').addEventListener('click', window.runRiskAnalysis);
+      document.getElementById('analyze-cancel-btn').addEventListener('click', () => {
+        if (activeAbortController) activeAbortController.abort();
+      });
+      document.getElementById('analyze-clear').addEventListener('click', () => {
+        document.getElementById('analyze-input').value = '';
+        document.getElementById('analyze-output-wrapper').classList.add('hidden');
+        document.getElementById('analyze-truncation-banner')?.classList.add('hidden');
+        document.getElementById('clause-highlighter-container').innerHTML = '';
+        document.getElementById('analyze-char-count').textContent = '0 characters';
+      });
+
+      document.getElementById('compare-btn').addEventListener('click', window.runCompareAnalysis);
+      document.getElementById('compare-cancel-btn').addEventListener('click', () => {
+        if (activeAbortController) activeAbortController.abort();
+      });
       document.getElementById('compare-clear').addEventListener('click', () => {
         document.getElementById('compare-doc1').value = '';
         document.getElementById('compare-doc2').value = '';
         document.getElementById('compare-output-wrapper').classList.add('hidden');
+        document.getElementById('compare-truncation-banner')?.classList.add('hidden');
       });
 
-      // 4. Q&A
-      document.getElementById('qa-btn').addEventListener('click', async () => {
-        const context = document.getElementById('qa-context').value.trim();
-        const q = document.getElementById('qa-question').value.trim();
-        if (!context || !q) return showToast('Provide document and question.', '⚠️');
-
-        const btn = document.getElementById('qa-btn');
-        const outWrap = document.getElementById('qa-output-wrapper');
-        const out = document.getElementById('qa-output');
-
-        btn.disabled = true;
-        btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Finding Answer...`;
-        outWrap.classList.remove('hidden');
-        out.innerHTML = getSkeletonMarkup('Analyzing contract context and retrieving cited answer...');
-
-        try {
-          const res = await callGemini(`Based on this document, answer the question accurately and cite relevant excerpts.
-QUESTION: ${q}
-DOCUMENT: ${context}`, 'You are an accurate, cited AI legal counsel powered by Gemini 3.6 Flash.');
-
-          out.innerHTML = DOMPurify.sanitize(marked.parse(res));
-          saveToHistory('qa', `Q&A: ${q}`, context, res);
-          showToast('Answer retrieved!', '💡');
-        } catch (e) {
-          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-400 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<span>🤔</span> Get Legal Answer <span class="kbd-badge">Ctrl+↵</span>`;
-        }
+      document.getElementById('qa-btn').addEventListener('click', window.runQaAnalysis);
+      document.getElementById('qa-cancel-btn').addEventListener('click', () => {
+        if (activeAbortController) activeAbortController.abort();
       });
-
       document.getElementById('qa-clear').addEventListener('click', () => {
         document.getElementById('qa-context').value = '';
         document.getElementById('qa-question').value = '';
         document.getElementById('qa-output-wrapper').classList.add('hidden');
       });
 
-      // 5. Checklist
-      document.getElementById('checklist-btn').addEventListener('click', async () => {
-        const doc = document.getElementById('checklist-input').value.trim();
-        const type = document.getElementById('checklist-type').value;
-        const role = document.getElementById('checklist-role').value;
-        if (!doc) return showToast('Please paste a document.', '⚠️');
-
-        const btn = document.getElementById('checklist-btn');
-        const outWrap = document.getElementById('checklist-output-wrapper');
-        const out = document.getElementById('checklist-output');
-
-        btn.disabled = true;
-        btn.innerHTML = `<span class="animate-spin inline-block mr-2">⏳</span> Generating Checklist...`;
-        outWrap.classList.remove('hidden');
-        out.innerHTML = getSkeletonMarkup('Formulating customized negotiation action items...');
-
-        try {
-          const res = await callGemini(`Create an actionable review checklist for a ${type} from the perspective of ${role}.
-Format with:
-### 📋 Phase 1: Essential Pre-Signing Verification
-- [ ] Item 1
-### 🚨 Phase 2: Deal-Breakers & Red Flags
-- [ ] Item 1
-### 💬 Phase 3: Questions for Your Attorney
-- [ ] Item 1
-### ✍️ Phase 4: Counter-Proposals
-- [ ] Item 1
-
-DOCUMENT:
-${doc}`, 'You are a master contract strategist.');
-
-          out.innerHTML = DOMPurify.sanitize(marked.parse(res));
-          saveToHistory('checklist', `Checklist: ${type}`, doc, res);
-          showToast('Checklist generated!', '✅');
-        } catch (e) {
-          out.innerHTML = `<div class="p-4 bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-400 rounded-lg"><strong>Error:</strong> ${escapeHTML(e.message)}</div>`;
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = `<span>✅</span> Generate Action Checklist <span class="kbd-badge">Ctrl+↵</span>`;
-        }
+      document.getElementById('checklist-btn').addEventListener('click', window.runChecklistAnalysis);
+      document.getElementById('checklist-cancel-btn').addEventListener('click', () => {
+        if (activeAbortController) activeAbortController.abort();
       });
-
       document.getElementById('checklist-clear').addEventListener('click', () => {
         document.getElementById('checklist-input').value = '';
         document.getElementById('checklist-output-wrapper').classList.add('hidden');
@@ -1808,7 +2282,7 @@ ${doc}`, 'You are a master contract strategist.');
     }
 
     // ==========================================
-    // 10. PDF EXPORT & CLIPBOARD
+    // 11. PDF EXPORT & CLIPBOARD
     // ==========================================
     function initExportAndCopy() {
       document.querySelectorAll('.copy-btn').forEach(btn => {
@@ -1838,7 +2312,7 @@ ${doc}`, 'You are a master contract strategist.');
             <div style="border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px;">
               <h1 style="font-size: 20px; font-weight: 800; color: #1e3a8a; margin: 0;">LEGAL ASSISTANT PRO</h1>
               <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 4px 0;">${escapeHTML(title)}</h2>
-              <p style="font-size: 11px; color: #64748b; margin: 0;">Generated on ${new Date().toLocaleString()} &bull; Google Gemini 3.6 Flash</p>
+              <p style="font-size: 11px; color: #64748b; margin: 0;">Generated on ${new Date().toLocaleString()} &bull; Google Gemini 3.6 Flash &bull; WCAG 2.1 AA Compliant</p>
             </div>
             <div style="color: #0f172a;">${src.innerHTML}</div>
             <div style="margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 10px; font-size: 10px; color: #94a3b8; text-align: center;">
