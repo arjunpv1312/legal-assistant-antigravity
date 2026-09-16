@@ -38,7 +38,7 @@ Create `.gitignore` containing environment variables, local artifacts, and node_
 
 ### Step 5: Stage and Commit Enhanced Files
 ```bash
-git add legal-assistant.html index.html README.md LICENSE .gitignore vercel.json package.json .agent/ scripts/
+git add index.html README.md LICENSE .gitignore vercel.json package.json .agent/ scripts/ .github/ api/ css/ js/
 git commit -m "Initial commit: Legal Assistant Pro - Enhanced with PDF upload, export, clause highlighting, localStorage history, and API key settings"
 ```
 

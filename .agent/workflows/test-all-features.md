@@ -1,6 +1,6 @@
 # Complete Feature Test Suite Workflow
 
-This workflow executes automated integration and output-validation tests for all 5 core legal tools in **Legal Assistant Pro**.
+This workflow executes automated integration and output-validation tests for all 5 core legal tools in **Legal Assistant Pro** powered by **Google Gemini 3.6 Flash**.
 
 ---
 
@@ -21,21 +21,23 @@ This workflow executes automated integration and output-validation tests for all
 Run the automated test runner locally:
 
 ```bash
-node scripts/test-all-features.js
+npm test
+# or: node scripts/test-all-features.js
 ```
 
 ### Script Execution Logic:
 For each tool test, the test runner:
 1. Validates non-empty input payload.
-2. Sends the request with exponential backoff handling.
+2. Sends the request with exponential backoff handling to `gemini-3.6-flash`.
 3. Checks for API errors, HTTP 429/500, or empty responses.
 4. Asserts expected keywords and structural outputs (markdown headers, JSON structure, checklist format).
-5. Logs test timing, status (`PASS` / `FAIL`), and writes output summary to `.test-results.log`.
+5. Logs test timing, status (`PASS` / `FAIL`), and output summary.
 
 ---
 
 ## 📝 Manual Verification Checklist (Browser UI)
 
-1. Open `legal-assistant.html` in browser.
-2. Navigate to each tab and run the respective test input above.
-3. Verify interactive rendering (copy button toast, inline clause tags, and PDF download).
+1. Open `index.html` or `legal-assistant.html` in browser.
+2. Connect your API key in the first-load gate modal.
+3. Navigate to each tab and run the respective test inputs or sample contracts.
+4. Verify interactive rendering (dark mode toggle, copy button toast, inline clause tags, and PDF download).

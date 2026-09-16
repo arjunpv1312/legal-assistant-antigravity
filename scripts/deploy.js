@@ -28,7 +28,7 @@ async function main() {
       })
     });
     if (res.ok) {
-      console.log('✅ Step 2: Gemini 2.0 Flash API Pre-flight connection: OK');
+      console.log('✅ Step 2: Gemini 3.6 Flash API Pre-flight connection: OK');
     } else {
       console.log(`⚠️ Step 2: API returned status ${res.status}. (Make sure to set GEMINI_API_KEY in Vercel settings)`);
     }

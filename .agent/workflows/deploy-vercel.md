@@ -7,30 +7,34 @@ This workflow automates the validation, pre-flight API testing, and production d
 ## 📋 Step-by-Step Deployment Guide
 
 ### Step 1: Verify Files & Integrity
-Ensure `legal-assistant.html` and `vercel.json` exist:
+Ensure `index.html` and `vercel.json` exist:
 ```powershell
-if (Test-Path "legal-assistant.html") {
-    Write-Host "✅ legal-assistant.html verified." -ForegroundColor Green
+if (Test-Path "index.html") {
+    Write-Host "✅ index.html verified." -ForegroundColor Green
 } else {
-    Write-Host "❌ legal-assistant.html not found!" -ForegroundColor Red
+    Write-Host "❌ index.html not found!" -ForegroundColor Red
     exit 1
 }
 ```
 
 ### Step 2: Test Gemini API Connectivity (Pre-flight Check)
-Perform a lightweight health-check against Google Gemini 2.0 Flash:
+Perform a lightweight health-check against Google Gemini 3.6 Flash:
 ```powershell
-$apiKey = if ($env:GEMINI_API_KEY) { $env:GEMINI_API_KEY } else { "AIzaSyAtMTp4z3Kq5L7NmOvWxYzAbCdEfGhIjKlMnOpQrStUvWxYz" }
-$endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey"
-$body = @{
-    contents = @(@{ parts = @(@{ text = "Legal AI health check: respond with 'OK'" }) })
-} | ConvertTo-Json
+$apiKey = $env:GEMINI_API_KEY
+if (-not $apiKey) {
+    Write-Host "ℹ️ Set GEMINI_API_KEY in environment for automated pre-flight testing." -ForegroundColor Yellow
+} else {
+    $endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=$apiKey"
+    $body = @{
+        contents = @(@{ parts = @(@{ text = "Legal AI health check: respond with 'OK'" }) })
+    } | ConvertTo-Json
 
-try {
-    $res = Invoke-RestMethod -Uri $endpoint -Method Post -Body $body -ContentType "application/json" -TimeoutSec 10
-    Write-Host "✅ Gemini 2.0 Flash API Pre-flight connection: OK" -ForegroundColor Green
-} catch {
-    Write-Host "⚠️ Warning: Demo key reached rate limit or failed. Make sure to configure GEMINI_API_KEY in Vercel." -ForegroundColor Yellow
+    try {
+        $res = Invoke-RestMethod -Uri $endpoint -Method Post -Body $body -ContentType "application/json" -TimeoutSec 10
+        Write-Host "✅ Gemini 3.6 Flash API Pre-flight connection: OK" -ForegroundColor Green
+    } catch {
+        Write-Host "⚠️ Warning: API pre-flight check failed: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
 }
 ```
 
