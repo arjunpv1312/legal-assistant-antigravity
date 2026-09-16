@@ -29,9 +29,16 @@ Legal Assistant Pro is a 5-tool GenAI platform that makes legal information acce
 
 ## 💻 Tech Stack
 - **Frontend:** HTML5, Tailwind CSS, Vanilla JavaScript
-- **AI Engine:** Google Gemini 2.0 Flash API
-- **Resilience:** Exponential backoff retry logic (handles 429 rate limits)
-- **Hosting:** Vercel
+- **AI Engine:** Google Gemini 3.6 Flash API
+- **Resilience:** Auto-retry with countdown timer (graceful 429 rate-limit handling)
+- **Hosting:** Vercel / GitHub Pages (Static Self-Contained HTML)
+
+## 👥 Use Cases & Personas
+- 🎓 **Pre-Law Exam Prep & Students** — Simplify complex cases, extract precedents, and generate review checklists.
+- 💼 **Contract Negotiation & Founders** — Compare competing vendor terms and spot risky liability clauses before signing.
+- 🏢 **HR Compliance Teams** — Audit employment agreements and generate actionable onboarding verification checklists.
+- 🏠 **Real Estate Agents & Tenants** — Demystify commercial and residential lease agreements and compare property terms.
+- 🧑‍💻 **Freelancers & Contractors** — Understand strict IP transfer, non-compete covenants, and payment terms in client MSAs.
 
 ## 🧪 Local Testing
 
