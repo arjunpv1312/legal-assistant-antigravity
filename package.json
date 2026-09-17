@@ -1,7 +1,7 @@
 {
-  "name": "legal-assistant-pro",
-  "version": "1.0.0",
-  "description": "Legal Assistant Pro — AI-Powered Legal Document Simplification, Risk Analysis, Clause Highlighting, Contract Comparison, and Checklist Generation powered by Google Gemini 3.6 Flash.",
+  "name": "legalbridge-india",
+  "version": "2.0.0",
+  "description": "LegalBridge — Free, Multilingual AI Legal Assistant for India's Justice Gap. Understand contracts in Hindi/English, 0-100 risk scoring, voice-in/voice-out, and Article 39A free legal aid access.",
   "main": "index.html",
   "scripts": {
     "start": "node server.js",
@@ -10,14 +10,16 @@
     "deploy": "node scripts/deploy.js"
   },
   "keywords": [
-    "legal-ai",
-    "gemini-3.6-flash",
+    "legalbridge",
+    "india-justice-gap",
+    "article-39a",
+    "nalsa",
+    "gemini-2.5-flash",
     "promptwars",
-    "contract-analysis",
-    "pdf-export",
-    "clause-highlighter",
-    "dark-mode",
-    "antigravity"
+    "multilingual-legal-ai",
+    "hindi-legal-assistant",
+    "voice-ai",
+    "wcag-aa"
   ],
   "author": "arjunpv1312",
   "license": "MIT"

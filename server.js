@@ -63,7 +63,7 @@ const server = http.createServer(async (req, res) => {
           return res.end(JSON.stringify({ error: { message: 'No Gemini API key found in .env or request.' } }));
         }
 
-        const model = 'gemini-3.6-flash';
+        const model = parsed.model || 'gemini-2.5-flash';
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
 
         const payload = {
@@ -72,7 +72,9 @@ const server = http.createServer(async (req, res) => {
         };
 
         if (parsed.systemInstruction) {
-          payload.systemInstruction = parsed.systemInstruction;
+          payload.systemInstruction = typeof parsed.systemInstruction === 'string' 
+            ? { parts: [{ text: parsed.systemInstruction }] }
+            : parsed.systemInstruction;
         }
 
         const geminiRes = await fetch(url, {
@@ -112,7 +114,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`\n⚖️  Legal Assistant Pro is running!`);
+  console.log(`\n⚖️  LegalBridge — AI Legal Assistant for India is running!`);
   console.log(`🔗 Local URL: http://localhost:${PORT}`);
   console.log(`🔑 Master API Key: Loaded from .env (Active)\n`);
 });
