@@ -3,8 +3,23 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+function loadEnv() {
+  const envPath = path.join(__dirname, '..', '.env');
+  if (fs.existsSync(envPath)) {
+    const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+        const [k, ...v] = trimmed.split('=');
+        process.env[k.trim()] = v.join('=').trim();
+      }
+    }
+  }
+}
+loadEnv();
+
 async function main() {
-  console.log('\n⚖️ --- LEGAL ASSISTANT PRO: VERCEL DEPLOYMENT ---');
+  console.log('\n⚖️ --- LEGALBRIDGE: VERCEL DEPLOYMENT & PRE-FLIGHT ---');
 
   // 1. Verify index.html
   const htmlPath = path.join(__dirname, '..', 'index.html');
@@ -16,7 +31,7 @@ async function main() {
 
   // 2. Pre-flight API test
   const demoKey = process.env.GEMINI_API_KEY || '';
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${demoKey}`;
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${demoKey}`;
 
   console.log('🔍 Step 2: Testing Gemini API connection...');
   try {
